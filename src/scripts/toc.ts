@@ -28,8 +28,9 @@ if (toc) {
   );
   headings.forEach((heading) => observer.observe(heading));
 
-  // Center mode: toggleable dropdown with click-outside / Escape to close.
+  // Center mode: hover opens on pointer devices; click remains for touch and keyboard use.
   if (toggle && dropdown) {
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isOpen = () => dropdown.classList.contains('is-open');
     const close = () => {
       dropdown.classList.remove('is-open');
@@ -44,6 +45,10 @@ if (toc) {
       event.stopPropagation();
       isOpen() ? close() : open();
     });
+    if (canHover) {
+      toc.addEventListener('mouseenter', open);
+      toc.addEventListener('mouseleave', close);
+    }
     links.forEach((link) => link.addEventListener('click', close));
     document.addEventListener('click', (event) => {
       if (isOpen() && !toc.contains(event.target as Node)) close();

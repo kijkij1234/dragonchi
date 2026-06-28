@@ -43,7 +43,7 @@ export function formatDate(date: Date | undefined, locale: Locale) {
   }).format(date);
 }
 
-export function uniqueTerms(entries: Array<CollectionEntry<'posts'>>, field: 'tags' | 'categories') {
+export function uniqueTerms(entries: Array<CollectionEntry<'posts'>>, field: 'tags') {
   const terms = new Map<string, number>();
   for (const entry of entries) {
     for (const term of entry.data[field] || []) {
@@ -51,17 +51,6 @@ export function uniqueTerms(entries: Array<CollectionEntry<'posts'>>, field: 'ta
     }
   }
   return [...terms.entries()]
-    .map(([name, count]) => ({ name, count, slug: slugTerm(name) }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-}
-
-export function uniqueSeries(entries: Array<CollectionEntry<'posts'>>) {
-  const series = new Map<string, number>();
-  for (const entry of entries) {
-    if (!entry.data.series) continue;
-    series.set(entry.data.series, (series.get(entry.data.series) || 0) + 1);
-  }
-  return [...series.entries()]
     .map(([name, count]) => ({ name, count, slug: slugTerm(name) }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -75,20 +64,12 @@ export function adjacentEntries<T extends ContentType>(entries: Array<Collection
 }
 
 export function relatedPosts(posts: Array<CollectionEntry<'posts'>>, current: CollectionEntry<'posts'>, limit = 3) {
-  const currentTerms = new Set([
-    ...(current.data.tags || []),
-    ...(current.data.categories || []),
-    ...(current.data.series ? [current.data.series] : [])
-  ]);
+  const currentTerms = new Set(current.data.tags || []);
 
   return posts
     .filter((entry) => entry.id !== current.id)
     .map((entry) => {
-      const score = [
-        ...(entry.data.tags || []),
-        ...(entry.data.categories || []),
-        ...(entry.data.series ? [entry.data.series] : [])
-      ].filter((term) => currentTerms.has(term)).length;
+      const score = (entry.data.tags || []).filter((term) => currentTerms.has(term)).length;
 
       return { entry, score };
     })

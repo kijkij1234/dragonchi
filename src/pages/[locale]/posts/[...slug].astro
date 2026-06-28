@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { entry, locale } = Astro.props as any as { entry: any; locale: Locale };
-const { Content, headings, remarkPluginFrontmatter } = await render(entry);
+const { Content, headings } = await render(entry);
 const posts = await getLocalizedEntries('posts', locale);
 const adjacent = adjacentEntries(posts, entry);
 const related = relatedPosts(posts, entry, siteConfig.post.relatedCount);
@@ -36,11 +36,7 @@ const related = relatedPosts(posts, entry, siteConfig.post.relatedCount);
     description={entry.data.description}
     date={entry.data.pubDate}
     locale={locale}
-    minutesRead={remarkPluginFrontmatter.minutesRead}
-    wordCount={remarkPluginFrontmatter.wordCount}
     tags={entry.data.tags}
-    categories={entry.data.categories}
-    series={entry.data.series}
   />
   <article class="prose mb-12 max-w-none">
     <Content />

@@ -4,8 +4,6 @@ description: "A complete Markdown sample for checking typography, gallery, math,
 pubDate: 2026-06-27
 cover: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80"
 tags: ["Astro", "Theme", "Markdown"]
-categories: ["Development"]
-series: "Migration"
 toc: "side"
 math: true
 mermaid: true

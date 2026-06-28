@@ -1,4 +1,19 @@
 const root = document.documentElement;
+const codeThemes = {
+  light: 'github-light',
+  dark: 'github-dark'
+};
+
+function currentColorMode() {
+  return root.classList.contains('dark') ? 'dark' : 'light';
+}
+
+function syncCodeTheme() {
+  const theme = codeThemes[currentColorMode()];
+  document.querySelectorAll<HTMLElement>('.expressive-code').forEach((block) => {
+    block.dataset.theme = theme;
+  });
+}
 
 function closePanel(panel: HTMLElement | null) {
   panel?.classList.add('hidden');
@@ -21,6 +36,7 @@ document.addEventListener('click', (event) => {
   if (themeButton) {
     togglePanel(themePanel);
     closePanel(langPanel);
+    closePanel(mobilePanel);
     return;
   }
 
@@ -49,6 +65,7 @@ document.addEventListener('click', (event) => {
   if (target.closest('[data-color-mode]')) {
     root.classList.toggle('dark');
     localStorage.setItem('color-mode', root.classList.contains('dark') ? 'dark' : 'light');
+    syncCodeTheme();
     return;
   }
 
@@ -56,3 +73,5 @@ document.addEventListener('click', (event) => {
   if (!target.closest('[data-lang-panel]')) closePanel(langPanel);
   if (!target.closest('[data-mobile-panel]')) closePanel(mobilePanel);
 });
+
+syncCodeTheme();

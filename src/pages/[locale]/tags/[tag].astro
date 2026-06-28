@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
-import EntryCard from '../../../components/content/EntryCard.astro';
+import EntryList from '../../../components/content/EntryList.astro';
 import PageHeader from '../../../components/content/PageHeader.astro';
 import { locales, type Locale } from '../../../config/i18n';
 import { getLocalizedEntries, slugTerm, uniqueTerms } from '../../../lib/content/entries';
@@ -21,5 +21,5 @@ const t = useTranslations(locale);
 
 <BaseLayout title={`${t('taxonomy.tagPrefix')}：${term.name}`} locale={locale}>
   <PageHeader title={`${t('taxonomy.tagPrefix')}：${term.name}`} description={`${term.count} ${t('taxonomy.count')}`} locale={locale} />
-  {posts.map((entry) => <EntryCard entry={entry} collection="posts" locale={locale} />)}
+  <EntryList entries={posts} collection="posts" locale={locale} />
 </BaseLayout>

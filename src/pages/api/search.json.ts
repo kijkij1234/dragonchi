@@ -15,8 +15,6 @@ export async function GET() {
         lang: entryLocale(entry as any),
         type: collection,
         tags: 'tags' in entry.data ? entry.data.tags : [],
-        categories: 'categories' in entry.data ? entry.data.categories : [],
-        series: 'series' in entry.data ? entry.data.series : '',
         date: entry.data.pubDate?.toISOString?.() || '',
         content: entry.body.slice(0, 8000)
       });

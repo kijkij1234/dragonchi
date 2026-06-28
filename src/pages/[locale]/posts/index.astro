@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
-import EntryCard from '../../../components/content/EntryCard.astro';
+import EntryList from '../../../components/content/EntryList.astro';
 import PageHeader from '../../../components/content/PageHeader.astro';
 import { locales, type Locale } from '../../../config/i18n';
 import { getLocalizedEntries } from '../../../lib/content/entries';
@@ -17,5 +17,5 @@ const t = useTranslations(locale);
 
 <BaseLayout title={t('posts.title')} description={t('posts.description')} locale={locale}>
   <PageHeader title={t('posts.title')} description={t('posts.description')} locale={locale} />
-  {posts.map((entry) => <EntryCard entry={entry} collection="posts" locale={locale} />)}
+  <EntryList entries={posts} collection="posts" locale={locale} />
 </BaseLayout>

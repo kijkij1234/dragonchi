@@ -62,17 +62,14 @@ const themeInit = `
     <script is:inline set:html={themeInit}></script>
   </head>
   <body class="bg-background text-foreground min-h-screen antialiased">
-    <div class="fixed top-0 left-0 z-50 h-1 w-full bg-transparent">
-      <div id="reading-progress" class="h-full w-0 bg-primary transition-[width] duration-100"></div>
-    </div>
-    <main class="mx-auto min-h-screen w-full px-4" style={`max-width: ${siteConfig.contentWidth}`}>
+    <main class="mx-auto min-h-screen w-full px-4" style={`--layout-content-width: ${siteConfig.contentWidth}; max-width: var(--layout-content-width)`}>
       <Header locale={locale} />
       <slot />
       {comments && <Comments />}
       <Footer locale={locale} />
     </main>
     {toc && headings.length > 0 && <Toc headings={headings} position={toc === true ? 'center' : toc} />}
-    <Dock locale={locale} />
+    {siteConfig.ui.dock.enabled && <Dock locale={locale} />}
     <SearchModal locale={locale} />
     <Analytics />
     <script>

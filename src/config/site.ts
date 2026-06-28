@@ -1,4 +1,5 @@
 import type { Locale } from './i18n';
+import { contentTypes } from './content';
 
 export const siteConfig = {
   name: 'Astro Narrow',
@@ -21,12 +22,17 @@ export const siteConfig = {
     ]
   },
   contentWidth: '56rem',
-  home: {
-    layout: 'profile'
+  ui: {
+    navbar: {
+      sticky: true
+    },
+    dock: {
+      enabled: true
+    }
   },
   nav: [
-    { label: { en: 'Posts', 'zh-cn': '文章' }, href: '/posts/', icon: 'lucide:file-text' },
-    { label: { en: 'Projects', 'zh-cn': '项目' }, href: '/projects/', icon: 'lucide:layers' },
+    { label: contentTypes.posts.label, href: contentTypes.posts.path, icon: contentTypes.posts.icon },
+    { label: contentTypes.projects.label, href: contentTypes.projects.path, icon: contentTypes.projects.icon },
     { label: { en: 'Archives', 'zh-cn': '归档' }, href: '/archives/', icon: 'lucide:archive' },
     { label: { en: 'Tags', 'zh-cn': '标签' }, href: '/tags/', icon: 'lucide:tags' }
   ],
@@ -88,8 +94,13 @@ export const siteConfig = {
     social: Array<{ name: string; url: string; icon: string }>;
   };
   contentWidth: string;
-  home: {
-    layout: 'classic' | 'profile';
+  ui: {
+    navbar: {
+      sticky: boolean;
+    };
+    dock: {
+      enabled: boolean;
+    };
   };
   nav: Array<{ label: Record<Locale, string>; href: string; icon: string }>;
   comments: Record<string, any>;

@@ -1,10 +1,11 @@
-const progress = document.getElementById('reading-progress');
+const progress = document.querySelector<HTMLElement>('[data-reading-progress]');
 
 function updateProgress() {
   if (!progress) return;
   const max = document.documentElement.scrollHeight - window.innerHeight;
   const value = max <= 0 ? 0 : (window.scrollY / max) * 100;
-  progress.style.width = `${Math.min(100, Math.max(0, value))}%`;
+  const clamped = Math.min(100, Math.max(0, value));
+  progress.style.setProperty('--reading-progress', `${clamped}%`);
 }
 
 updateProgress();

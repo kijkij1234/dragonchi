@@ -9,8 +9,6 @@ const baseSchema = z.object({
   draft: z.boolean().default(false),
   cover: z.string().optional(),
   tags: z.array(z.string()).default([]),
-  categories: z.array(z.string()).default([]),
-  series: z.string().optional(),
   lang: z.enum(['en', 'zh-cn']).optional(),
   toc: z.union([z.boolean(), z.enum(['center', 'side'])]).optional(),
   comments: z.boolean().optional(),
@@ -30,8 +28,12 @@ const posts = defineCollection({
 const projects = defineCollection({
   loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
-    url: z.string().url().optional(),
-    repo: z.string().url().optional(),
+    links: z.array(z.object({
+      label: z.string(),
+      url: z.string().url(),
+      icon: z.string().optional(),
+      variant: z.enum(['primary', 'secondary']).default('secondary')
+    })).default([]),
     featured: z.boolean().default(false)
   })
 });

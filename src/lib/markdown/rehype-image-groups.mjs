@@ -23,7 +23,7 @@ function figureForImage(img, index = 0) {
       type: 'element',
       tagName: 'div',
       properties: {
-        className: ['image-container', 'flex', 'justify-center', 'overflow-hidden', 'rounded-[var(--radius-panel)]', 'border', 'border-border', 'bg-muted/20']
+        className: ['image-container', 'flex', 'justify-center', 'overflow-hidden', 'rounded-[var(--radius-panel)]', 'bg-muted/20']
       },
       children: [img]
     }
