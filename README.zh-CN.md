@@ -64,7 +64,9 @@ export const contentTypes = {
 
 ## GitHub Pages
 
-示例 workflow 位于 `.github/workflows/deploy.yml`。在 GitHub 仓库设置中，将 Pages source 设置为 **GitHub Actions**。workflow 会自动为用户页面和项目页面设置 `ASTRO_SITE` 与 `ASTRO_BASE`。
+示例 workflow 位于 `.github/workflows/deploy.yml`。第一次部署前，先进入仓库 **Settings > Pages**，将 **Build and deployment > Source** 设置为 **GitHub Actions**。如果没有开启这个设置，`actions/deploy-pages` 可能会报 `HttpError: Not Found`。
+
+workflow 会自动为用户页面和项目页面设置 `ASTRO_SITE` 与 `ASTRO_BASE`。
 
 ## 开发原则
 

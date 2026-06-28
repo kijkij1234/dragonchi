@@ -64,7 +64,9 @@ export const contentTypes = {
 
 ## GitHub Pages
 
-The example workflow is in `.github/workflows/deploy.yml`. In GitHub repository settings, set Pages source to **GitHub Actions**. The workflow sets `ASTRO_SITE` and `ASTRO_BASE` automatically for both user pages and project pages.
+The example workflow is in `.github/workflows/deploy.yml`. Before the first deployment, open repository **Settings > Pages** and set **Build and deployment > Source** to **GitHub Actions**. Without this setting, `actions/deploy-pages` can fail with `HttpError: Not Found`.
+
+The workflow sets `ASTRO_SITE` and `ASTRO_BASE` automatically for both user pages and project pages.
 
 ## Development Notes
 
