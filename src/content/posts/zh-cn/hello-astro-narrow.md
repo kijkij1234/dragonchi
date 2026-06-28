@@ -1,6 +1,6 @@
 ---
-title: "你好，Astro Narrow"
-description: "用于检查排版、图库、数学公式、Mermaid、封面图和分类法的完整 Markdown 示例。"
+title: "Astro Narrow 主题配置指南"
+description: "介绍 Astro Narrow 的站点配置、内容类型、Markdown 能力和项目链接配置。"
 pubDate: 2026-06-27
 cover: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80"
 tags: ["Astro", "主题", "Markdown"]
@@ -11,149 +11,152 @@ gallery: true
 lightbox: true
 ---
 
-## 为什么选择 Astro
+Astro Narrow 是 Narrow 阅读体验的 Astro-native 实现。它使用内容集合、类型化配置、Astro 组件和构建期 Markdown 转换，不保留 Hugo 兼容层。
 
-Astro Narrow 使用内容集合、Astro 组件和 Markdown 管线来实现主题能力，不保留
-Hugo 的模板兼容层。路由由集合生成，Markdown 由 remark/rehype 增强，交互只在
-需要的地方加载。
+## 配置 `site.ts`
+
+`src/config/site.ts` 控制站点信息、导航、整体宽度、评论、统计、图库和文章设置。
+
+| 配置 | 用途 |
+| --- | --- |
+| `name`, `shortName`, `description` | 站点元信息 |
+| `author` | 首页个人信息卡片和社交链接 |
+| `contentWidth` | 主体布局宽度 |
+| `ui.navbar.sticky` | 是否固定导航栏 |
+| `ui.dock.enabled` | 是否显示底部 dock |
+| `nav` | 顶部导航 |
+| `footerNav` | 底部导航 |
+| `comments` | Giscus 配置 |
+| `analytics` | Umami 配置 |
+| `gallery`, `lightbox` | Markdown 图片行为 |
+| `post.relatedCount` | 相关文章数量 |
+| `post.license` | 版权许可区块 |
+
+::::tabs
+:::tab{title="基础信息"}
+```ts
+export const siteConfig = {
+  name: 'Astro Narrow',
+  shortName: 'Narrow',
+  description: '一个内容优先的 Astro 主题。',
+  contentWidth: '56rem'
+}
+```
+:::
+
+:::tab{title="导航"}
+```ts
+export const siteConfig = {
+  nav: ['posts', 'projects', 'archives', 'tags'],
+  footerNav: ['archives', 'tags']
+}
+```
+:::
+
+:::tab{title="外部链接"}
+```ts
+export const siteConfig = {
+  nav: [
+    'posts',
+    { label: { en: 'GitHub', 'zh-cn': 'GitHub' }, href: 'https://github.com/', icon: 'simple-icons:github' }
+  ]
+}
+```
+:::
+::::
+
+## 配置内容类型
+
+`src/config/content.ts` 定义每种内容在导航、列表、卡片和首页中的展示方式。
+
+| 配置 | 可选值 |
+| --- | --- |
+| `cardStyle` | `article`, `showcase`, `compact` |
+| `listLayout` | `stack`, `grid` |
+| `gridColumns` | `1`, `2`, `3` |
+| `home.enabled` | 是否在首页展示 |
+| `home.limit` | 首页展示数量 |
+| `home.featuredOnly` | 仅展示 featured 内容 |
+
+```ts title="src/config/content.ts"
+export const contentTypes = {
+  posts: {
+    collection: 'posts',
+    path: '/posts/',
+    label: { en: 'Posts', 'zh-cn': '文章' },
+    cardStyle: 'article',
+    listLayout: 'stack',
+    gridColumns: 1
+  }
+}
+```
+
+## Frontmatter
+
+文章使用 Astro content collections。建议保持 frontmatter 简洁稳定。
+
+| 字段 | 用途 |
+| --- | --- |
+| `title` | 页面标题 |
+| `description` | 摘要和 meta description |
+| `pubDate` | 发布日期 |
+| `updatedDate` | 可选更新日期 |
+| `cover` | 封面图 |
+| `tags` | 标签分类 |
+| `toc` | `center`, `side`, `true`, `false` |
+| `comments` | 单篇评论开关 |
+| `math`, `mermaid`, `gallery`, `lightbox` | 功能提示 |
+
+项目内容还支持 `featured` 和 `links`。
+
+```yaml
+links:
+  - label: Website
+    url: https://example.com
+    icon: lucide:external-link
+  - label: GitHub
+    url: https://github.com/example/repo
+    icon: simple-icons:github
+featured: true
+```
+
+## Markdown 能力
 
 > [!NOTE]
-> 这个提示块使用 GitHub 风格的引用语法书写。
+> 尽量使用 Markdown 原生输入。Astro Narrow 通过 remark 和 rehype 转换常见结构。
 
-## 排版
-
-内容页面需要稳定的阅读节奏。这段文字包含一个[内部链接](/zh-cn/posts/)，
-也可以用来检查浅色和深色模式下的行高、换行和对比度。
-
-### 列表
-
-- 内容集合提供 typed frontmatter。
-- Astro 组件让布局边界更清晰。
-- 少量客户端脚本处理搜索、主题切换、图库和目录。
-
-1. 编写 Markdown。
-2. 让 Astro 渲染内容。
-3. 只增强需要交互的部分。
-
-### 表格
-
-| 功能 | 实现方式 |
+| 功能 | 输入方式 |
 | --- | --- |
-| 搜索 | 基于静态 JSON 索引的 Fuse.js |
-| 代码块 | Astro Expressive Code |
-| 图库 | 构建期 Markdown 分组加 smart-gallery |
-| 主题 | CSS 变量，颜色方案和明暗模式分离 |
+| 提示块 | GitHub 风格引用块 |
+| Tabs | `::::tabs` 和 `:::tab{title="..."}` |
+| 图库 | 连续书写 Markdown 图片 |
+| 数学公式 | `$x^2$` 和 `$$...$$` |
+| Mermaid | `mermaid` 代码块 |
+| 代码块 | Expressive Code |
 
-## 代码
+### 代码
 
-```ts title="theme.ts" {5} ins={2} del={3}
-type ThemeMode = 'light' | 'dark';
-const defaultMode: ThemeMode = 'light';
-const defaultMode: ThemeMode = 'auto';
+```ts title="theme.ts" {3}
+type ColorMode = 'light' | 'dark' | 'auto';
 
-export function setTheme(mode: ThemeMode) {
+export function setMode(mode: ColorMode) {
   document.documentElement.classList.toggle('dark', mode === 'dark');
 }
 ```
 
-```astro title="AuthorCard.astro" {6-8}
----
-const title = 'Astro 组件';
----
+### 图库
 
-<section class="surface-card">
-  <h2>{title}</h2>
-  <slot />
-</section>
-```
+![安静的风景](https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80 "安静的风景")
+![绿色森林](https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&q=80 "绿色森林")
+![湖泊与山](https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80 "湖泊与山")
 
-```diff lang="ts" title="content-schema.diff"
- const posts = defineCollection({
--  schema: oldPostSchema
-+  loader: glob({ base: './src/content/posts', pattern: '**/*.{md,mdx}' }),
-+  schema: postSchema
- })
-```
-
-```bash title="terminal"
-pnpm install
-pnpm build
-```
-
-```json title="theme.json" {2-3}
-{
-  "theme": "default",
-  "colorMode": "dark",
-  "features": ["search", "toc", "gallery"]
-}
-```
-
-```css title="tokens.css" {2}
-:root {
-  --radius: 0.75rem;
-  --color-background: oklch(1 0 0);
-}
-```
-
-```ts title="collapsible-example.ts" collapse={1-6, 20-24}
-import { getCollection } from 'astro:content';
-import { siteConfig } from '../config/site';
-import { formatDate } from '../lib/content/entries';
-
-const posts = await getCollection('posts');
-const locale = 'zh-cn';
-
-export function summarize() {
-  return posts.map((post) => ({
-    title: post.data.title,
-    description: post.data.description,
-    date: formatDate(post.data.pubDate, locale),
-    site: siteConfig.name
-  }));
-}
-
-console.log(summarize());
-
-function unusedDebugHelper() {
-  console.log('这一段默认折叠。');
-  console.log('可以用来检查长代码块。');
-  console.log('Expressive Code 会保持阅读节奏紧凑。');
-}
-```
-
-## 单图
-
-![单张风景图](https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80 "单图说明")
-
-## 图库
-
-下面这些图片在 Markdown 中连续书写，因此会被构建成同一个图库。
-
-![图片一](https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80 "安静的风景")
-![图片二](https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&q=80 "绿色森林")
-![图片三](https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80 "湖泊与山")
-
-## 数学
+### 数学和 Mermaid
 
 行内公式：$E = mc^2$。
 
-$$
-\int_0^1 x^2 dx = \frac{1}{3}
-$$
-
-## Mermaid
-
 ```mermaid
 flowchart LR
-  A[Markdown] --> B[Astro 渲染]
-  B --> C[组件]
-  C --> D[静态页面]
+  A[Markdown] --> B[remark/rehype]
+  B --> C[Astro 组件]
+  C --> D[静态站点]
 ```
-
-## 提示块
-
-> [!TIP]
-> 需要图库时，只要连续书写多张 Markdown 图片，不需要自定义语法。
-
-> [!WARNING]
-> 外部图片的尺寸不一定能在构建期获取，因此图库会在浏览器加载图片前使用保守默认值。

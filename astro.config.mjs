@@ -7,8 +7,10 @@ import expressiveCode from 'astro-expressive-code';
 import ecConfig from './ec.config.mjs';
 import tailwindcss from '@tailwindcss/vite';
 import { unified } from '@astrojs/markdown-remark';
+import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { remarkTabs } from './src/lib/markdown/remark-tabs.mjs';
 import { rehypeHeadingAnchors } from './src/lib/markdown/rehype-heading-anchors.mjs';
 import { rehypeAlerts } from './src/lib/markdown/rehype-alerts.mjs';
 import { rehypeImageGroups } from './src/lib/markdown/rehype-image-groups.mjs';
@@ -27,7 +29,7 @@ export default defineConfig({
   integrations: [icon(), expressiveCode(ecConfig)],
   markdown: {
     processor: unified({
-      remarkPlugins: [remarkMath],
+      remarkPlugins: [remarkMath, remarkDirective, remarkTabs],
       rehypePlugins: [rehypeKatex, rehypeHeadingAnchors, rehypeAlerts, rehypeImageGroups, rehypeMermaid]
     })
   },

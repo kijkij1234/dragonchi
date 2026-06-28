@@ -142,6 +142,83 @@ a {
   color: var(--color-primary);
 }
 
+.markdown-tabs {
+  margin-block: 1.75rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  box-shadow: var(--surface-shadow);
+}
+
+.tabs-nav-shell {
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.55rem 0.55rem 0.45rem;
+  scrollbar-width: none;
+}
+
+.tabs-nav-shell::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs-nav {
+  display: inline-flex;
+  min-width: max-content;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: color-mix(in oklch, var(--color-background), transparent 20%);
+  padding: 0.25rem;
+}
+
+.tabs-trigger {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.tabs-trigger:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+.tabs-trigger[aria-selected="true"] {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--color-foreground), transparent 88%);
+}
+
+.tabs-trigger:focus-visible {
+  outline: 2px solid color-mix(in oklch, var(--color-primary), transparent 55%);
+  outline-offset: 2px;
+}
+
+.tabs-panels {
+  padding: 1rem;
+}
+
+.tabs-panel > :first-child {
+  margin-top: 0;
+}
+
+.tabs-panel > :last-child {
+  margin-bottom: 0;
+}
+
 /* Drive @tailwindcss/typography from the theme tokens. Because the tokens
    already flip under `.dark`, the same `--tw-prose-*` mapping covers both
    light and dark — no `prose-invert` needed. */
