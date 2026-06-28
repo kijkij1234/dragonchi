@@ -1,0 +1,58 @@
+const root = document.documentElement;
+
+function closePanel(panel: HTMLElement | null) {
+  panel?.classList.add('hidden');
+}
+
+function togglePanel(panel: HTMLElement | null) {
+  panel?.classList.toggle('hidden');
+}
+
+document.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement;
+
+  const themeButton = target.closest('[data-theme-menu]');
+  const langButton = target.closest('[data-lang-menu]');
+  const mobileButton = target.closest('[data-mobile-menu]');
+  const themePanel = document.querySelector<HTMLElement>('[data-theme-panel]');
+  const langPanel = document.querySelector<HTMLElement>('[data-lang-panel]');
+  const mobilePanel = document.querySelector<HTMLElement>('[data-mobile-panel]');
+
+  if (themeButton) {
+    togglePanel(themePanel);
+    closePanel(langPanel);
+    return;
+  }
+
+  if (langButton) {
+    togglePanel(langPanel);
+    closePanel(themePanel);
+    closePanel(mobilePanel);
+    return;
+  }
+
+  if (mobileButton) {
+    togglePanel(mobilePanel);
+    closePanel(themePanel);
+    closePanel(langPanel);
+    return;
+  }
+
+  const themeValue = target.closest<HTMLElement>('[data-theme-value]');
+  if (themeValue?.dataset.themeValue) {
+    root.dataset.theme = themeValue.dataset.themeValue;
+    localStorage.setItem('theme', themeValue.dataset.themeValue);
+    closePanel(themePanel);
+    return;
+  }
+
+  if (target.closest('[data-color-mode]')) {
+    root.classList.toggle('dark');
+    localStorage.setItem('color-mode', root.classList.contains('dark') ? 'dark' : 'light');
+    return;
+  }
+
+  if (!target.closest('[data-theme-panel]')) closePanel(themePanel);
+  if (!target.closest('[data-lang-panel]')) closePanel(langPanel);
+  if (!target.closest('[data-mobile-panel]')) closePanel(mobilePanel);
+});

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import EntryCard from '../../components/content/EntryCard.astro';
+import PageHeader from '../../components/content/PageHeader.astro';
+import { getLocalizedEntries, slugTerm } from '../../lib/content/entries';
+import { useTranslations } from '../../i18n/utils';
+
+export async function getStaticPaths() {
+  const posts = await getLocalizedEntries('posts', 'en');
+  const series = [...new Set(posts.map((entry) => entry.data.series).filter(Boolean))] as string[];
+  return series.map((name) => ({ params: { series: slugTerm(name) }, props: { name, posts: posts.filter((entry) => entry.data.series && slugTerm(entry.data.series) === slugTerm(name)) } }));
+}
+
+const { name, posts } = Astro.props;
+const t = useTranslations('en');
+---
+
+<BaseLayout title={`${t('taxonomy.seriesPrefix')}: ${name}`} locale="en">
+  <PageHeader title={`${t('taxonomy.seriesPrefix')}: ${name}`} description={`${posts.length} ${t('taxonomy.count')}`} locale="en" />
+  {posts.map((entry) => <EntryCard entry={entry} collection="posts" locale="en" />)}
+</BaseLayout>

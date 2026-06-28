@@ -1,0 +1,31 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../config/i18n';
+
+interface Props {
+  url?: string;
+  repo?: string;
+  locale?: Locale;
+}
+
+const { url, repo, locale = 'en' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+{(url || repo) && (
+  <div class="mb-8 flex flex-wrap gap-3">
+    {url && (
+      <a href={url} class="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm text-primary-foreground">
+        <Icon name="lucide:external-link" class="h-4 w-4" />
+        {t('project.website')}
+      </a>
+    )}
+    {repo && (
+      <a href={repo} class="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm hover:bg-accent">
+        <Icon name="simple-icons:github" class="h-4 w-4" />
+        {t('project.repository')}
+      </a>
+    )}
+  </div>
+)}

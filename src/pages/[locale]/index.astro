@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import HomePage from '../../components/home/HomePage.astro';
+import { locales, type Locale } from '../../config/i18n';
+import { siteConfig } from '../../config/site';
+import { getLocalizedEntries } from '../../lib/content/entries';
+
+export function getStaticPaths() {
+  return locales.filter((locale) => locale !== 'en').map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const posts = (await getLocalizedEntries('posts', locale)).slice(0, 5);
+const projects = (await getLocalizedEntries('projects', locale)).filter((entry) => entry.data.featured).slice(0, 3);
+---
+
+<BaseLayout title={siteConfig.name} description={siteConfig.description} locale={locale}>
+  <HomePage locale={locale} posts={posts} projects={projects} />
+</BaseLayout>

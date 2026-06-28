@@ -1,17 +1,14 @@
 ---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import HomePage from '../components/home/HomePage.astro';
+import { siteConfig } from '../config/site';
+import { getLocalizedEntries } from '../lib/content/entries';
 
+const locale = 'en';
+const posts = (await getLocalizedEntries('posts', locale)).slice(0, 5);
+const projects = (await getLocalizedEntries('projects', locale)).filter((entry) => entry.data.featured).slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={siteConfig.name} description={siteConfig.description} locale={locale}>
+  <HomePage locale={locale} posts={posts} projects={projects} />
+</BaseLayout>

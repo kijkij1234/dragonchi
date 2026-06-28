@@ -1,0 +1,30 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Locale } from '../../config/i18n';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const labels = {
+  back: t('dock.back'),
+  top: t('dock.top'),
+  home: t('dock.home')
+};
+const homeHref = locale === 'en' ? '/' : `/${locale}/`;
+---
+
+<div class="dock-shell fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-1 border p-1 shadow-[0_18px_50px_rgb(0_0_0_/_0.16)]">
+  <button type="button" data-history-back data-fallback={homeHref} class="grid h-10 w-10 place-items-center rounded-xl text-muted-foreground transition hover:bg-accent hover:text-accent-foreground" aria-label={labels.back} title={labels.back}>
+    <Icon name="lucide:arrow-left" class="h-4 w-4" />
+  </button>
+  <a href={homeHref} class="grid h-10 w-10 place-items-center rounded-xl text-muted-foreground transition hover:bg-accent hover:text-accent-foreground" aria-label={labels.home} title={labels.home}>
+    <Icon name="lucide:home" class="h-4 w-4" />
+  </a>
+  <button type="button" data-back-top class="grid h-10 w-10 place-items-center rounded-xl text-muted-foreground transition hover:bg-accent hover:text-accent-foreground" aria-label={labels.top} title={labels.top}>
+    <Icon name="lucide:arrow-up" class="h-4 w-4" />
+  </button>
+</div>

@@ -12,6 +12,23 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.0.3"
+    "@astrojs/markdown-remark": "^7.2.0",
+    "@expressive-code/plugin-collapsible-sections": "^0.44.0",
+    "@iconify-json/lucide": "^1.2.114",
+    "@iconify-json/simple-icons": "^1.2.87",
+    "@tailwindcss/vite": "^4.3.1",
+    "astro": "^7.0.3",
+    "astro-expressive-code": "^0.44.0",
+    "astro-icon": "^1.1.5",
+    "fuse.js": "^7.4.2",
+    "mermaid": "^11.16.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "smart-gallery": "^1.0.0",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "mdast-util-to-string": "^4.0.0"
   }
 }
