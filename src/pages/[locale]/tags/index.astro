@@ -18,5 +18,5 @@ const t = useTranslations(locale);
 
 <BaseLayout title={t('taxonomy.tagsTitle')} description={t('taxonomy.tagsDescription')} locale={locale}>
   <PageHeader title={t('taxonomy.tagsTitle')} description={t('taxonomy.tagsDescription')} locale={locale} />
-  <TermCloud terms={terms} basePath={`/${locale}/tags/`} />
+  <TermCloud terms={terms} locale={locale} />
 </BaseLayout>
