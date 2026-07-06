@@ -6,7 +6,6 @@ import PostMeta from '../../../components/content/PostMeta.astro';
 import PostLicense from '../../../components/content/PostLicense.astro';
 import PostNavigation from '../../../components/content/PostNavigation.astro';
 import RelatedPosts from '../../../components/content/RelatedPosts.astro';
-import SeriesNav from '../../../components/content/SeriesNav.astro';
 import { contentTypes } from '../../../config/content';
 import { getLocalePath, locales, type Locale } from '../../../config/i18n';
 import { siteConfig } from '../../../config/site';
@@ -24,7 +23,7 @@ export async function getStaticPaths() {
 const { entry, locale } = Astro.props as any as { entry: any; locale: Locale };
 const { Content, headings } = await render(entry);
 const posts = await getLocalizedEntries('posts', locale);
-const adjacent = adjacentEntries(posts, entry);
+const adjacent = adjacentEntries<'posts'>(posts, entry);
 const related = relatedPosts(posts, entry, siteConfig.post.relatedCount);
 
 const seriesEntries = entry.data.series?.length ? await getLocalizedEntries('series', locale) : [];
@@ -56,8 +55,9 @@ const seriesGroups = (entry.data.series ?? [])
     date={entry.data.pubDate}
     locale={locale}
     tags={entry.data.tags}
+    seriesGroups={seriesGroups}
+    current={entry}
   />
-  {seriesGroups.length > 0 && <SeriesNav groups={seriesGroups} current={entry} locale={locale} />}
   <article class="prose mb-12 max-w-none">
     <Content />
   </article>
