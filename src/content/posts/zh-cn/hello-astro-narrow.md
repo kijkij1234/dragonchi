@@ -9,6 +9,8 @@ math: true
 mermaid: true
 gallery: true
 lightbox: true
+series: ["theme-guide"]
+seriesOrder: 1
 ---
 
 Astro Narrow 是 Narrow 阅读体验的 Astro-native 实现。它使用内容集合、类型化配置、Astro 组件和构建期 Markdown 转换，不保留 Hugo 兼容层。

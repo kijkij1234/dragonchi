@@ -9,6 +9,8 @@ math: true
 mermaid: true
 gallery: true
 lightbox: true
+series: ["theme-guide"]
+seriesOrder: 1
 ---
 
 Astro Narrow is an Astro-native version of the Narrow reading experience. It uses content collections, typed config, Astro components, and build-time Markdown transforms instead of Hugo compatibility code.

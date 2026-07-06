@@ -1,7 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { getLocaleFromId, getLocalePath, stripLocaleFromId, type Locale } from '../../config/i18n';
 
-export type ContentType = 'posts' | 'projects' | 'pages';
+export type ContentType = 'posts' | 'projects' | 'pages' | 'series';
 
 export function entryLocale(entry: CollectionEntry<ContentType>) {
   return entry.data.lang || getLocaleFromId(entry.id);
@@ -77,6 +77,17 @@ export function relatedPosts(posts: Array<CollectionEntry<'posts'>>, current: Co
     .sort((a, b) => b.score - a.score || entryDate(b.entry as any).getTime() - entryDate(a.entry as any).getTime())
     .slice(0, limit)
     .map((item) => item.entry);
+}
+
+export function seriesPosts(posts: Array<CollectionEntry<'posts'>>, seriesSlug: string) {
+  return posts
+    .filter((entry) => entry.data.series?.includes(seriesSlug))
+    .sort((a, b) => {
+      const orderA = a.data.seriesOrder ?? Infinity;
+      const orderB = b.data.seriesOrder ?? Infinity;
+      if (orderA !== orderB) return orderA - orderB;
+      return entryDate(a as CollectionEntry<ContentType>).getTime() - entryDate(b as CollectionEntry<ContentType>).getTime();
+    });
 }
 
 export function slugTerm(value: string) {
