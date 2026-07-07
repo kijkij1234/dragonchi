@@ -19,6 +19,10 @@ const systemRoutes = {
     href: '/tags/',
     icon: 'lucide:tags'
   },
+  series: {
+    label: { en: 'Series', 'zh-cn': '系列' },
+    href: '/series/',
+    icon: 'lucide:bookmark'
   resume: {
     label: { en: 'Resume', 'zh-cn': '简历' },
     href: '/resume/',

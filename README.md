@@ -10,6 +10,7 @@ English is the default language. Simplified Chinese is included as an example lo
 
 - Astro-native content collections for posts, projects, and pages.
 - Configurable content types, card styles, list layouts, and home sections.
+- Tags taxonomy, plus post series with a tabbed in-post navigator for posts that belong to more than one series.
 - Free-form pages with `page`, `timeline`, and structured `resume` layouts.
 - Tags-only taxonomy.
 - Markdown alerts, tabs, math, Mermaid, galleries, lightbox, and Expressive Code.

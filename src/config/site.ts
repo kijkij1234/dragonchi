@@ -30,6 +30,7 @@ export const siteConfig = {
     }
   },
   nav: ['posts', 'projects', 'archives', 'tags'],
+  footerNav: ['archives', 'tags', 'series'],
   footerNav: ['archives', 'tags', 'resume'],
   comments: {
     enabled: false,

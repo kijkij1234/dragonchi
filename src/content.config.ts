@@ -21,7 +21,9 @@ const baseSchema = z.object({
 const posts = defineCollection({
   loader: glob({ base: './src/content/posts', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
-    pubDate: z.coerce.date()
+    pubDate: z.coerce.date(),
+    series: z.array(z.string()).optional(),
+    seriesOrder: z.number().optional()
   })
 });
 
@@ -96,8 +98,14 @@ const pages = defineCollection({
   })
 });
 
+const series = defineCollection({
+  loader: glob({ base: './src/content/series', pattern: '**/*.{md,mdx}' }),
+  schema: baseSchema
+});
+
 export const collections = {
   posts,
   projects,
-  pages
+  pages,
+  series
 };
