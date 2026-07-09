@@ -26,13 +26,18 @@ const posts = await getLocalizedEntries('posts', locale);
 const adjacent = adjacentEntries<'posts'>(posts, entry);
 const related = relatedPosts(posts, entry, siteConfig.post.relatedCount);
 
-const seriesEntries = entry.data.series?.length ? await getLocalizedEntries('series', locale) : [];
 const seriesGroups = (entry.data.series ?? [])
   .map((slug: string) => {
-    const seriesEntry = seriesEntries.find((s) => entrySlug(s as any) === slug);
-    return seriesEntry ? { seriesEntry, posts: seriesPosts(posts, slug) } : undefined;
+    const meta = contentTypes.posts.taxonomies!.series.terms?.[slug];
+    if (!meta) return undefined;
+    return {
+      slug,
+      title: meta.label[locale] ?? meta.label.en,
+      href: getLocalePath(locale, `/series/${slug}/`),
+      posts: seriesPosts(posts, slug)
+    };
   })
-  .filter((group: unknown): group is { seriesEntry: any; posts: any[] } => Boolean(group));
+  .filter((group: unknown): group is NonNullable<typeof group> => Boolean(group));
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description} locale={locale} headings={headings} toc={entry.data.toc ?? 'center'} comments={entry.data.comments}>

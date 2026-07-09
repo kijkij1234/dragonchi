@@ -1,7 +1,8 @@
 import { getCollection } from 'astro:content';
+import { contentTypes } from '../config/content';
 import { locales } from '../config/i18n';
 import { getLocalePath } from '../config/i18n';
-import { localizedEntryPath, uniqueTerms } from '../lib/content/entries';
+import { localizedEntryPath, getTerms } from '../lib/content/entries';
 
 function escapeXml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -19,6 +20,7 @@ export async function GET({ site, url }: { site?: URL; url: URL }) {
     getLocalePath(locale, '/projects/'),
     getLocalePath(locale, '/archives/'),
     getLocalePath(locale, '/tags/'),
+    getLocalePath(locale, '/series/'),
     getLocalePath(locale, '/rss.xml')
   ]);
 
@@ -28,7 +30,16 @@ export async function GET({ site, url }: { site?: URL; url: URL }) {
   const taxonomyPaths = locales.flatMap((locale) => {
     const localizedPosts = posts.filter((entry) => localizedEntryPath('posts', entry as any).startsWith(locale === 'en' ? '/posts/' : `/${locale}/posts/`)) as any;
     const prefix = locale === 'en' ? '' : `/${locale}`;
-    return uniqueTerms(localizedPosts, 'tags').map((term) => `${prefix}/tags/${term.slug}/`);
+    const paths: string[] = [];
+    const postsConfig = contentTypes.posts;
+    if (postsConfig.taxonomies) {
+      for (const [taxId, taxConfig] of Object.entries(postsConfig.taxonomies)) {
+        for (const term of getTerms(localizedPosts, taxConfig.field)) {
+          paths.push(`${prefix}/${taxId}/${term.slug}/`);
+        }
+      }
+    }
+    return paths;
   });
 
   const urls = [...new Set([...staticPaths, ...postPaths, ...projectPaths, ...pagePaths, ...taxonomyPaths])]

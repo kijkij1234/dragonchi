@@ -2,21 +2,26 @@
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import EntryList from '../../components/content/EntryList.astro';
 import PageHeader from '../../components/content/PageHeader.astro';
-import { getLocalizedEntries, seriesPosts, entrySlug } from '../../lib/content/entries';
+import { contentTypes } from '../../config/content';
+import { getLocalizedEntries, seriesPosts } from '../../lib/content/entries';
 
 export async function getStaticPaths() {
-  const series = await getLocalizedEntries('series', 'en');
+  const taxonomy = contentTypes.posts.taxonomies!.series;
   const posts = await getLocalizedEntries('posts', 'en');
-  return series.map((entry) => ({
-    params: { series: entrySlug(entry as any) },
-    props: { seriesEntry: entry, posts: seriesPosts(posts, entrySlug(entry as any)) }
+  return Object.keys(taxonomy.terms ?? {}).map((slug) => ({
+    params: { series: slug },
+    props: {
+      title: taxonomy.terms![slug].label.en,
+      description: taxonomy.terms![slug].description?.en,
+      posts: seriesPosts(posts, slug)
+    }
   }));
 }
 
-const { seriesEntry, posts } = Astro.props;
+const { title, description, posts } = Astro.props;
 ---
 
-<BaseLayout title={seriesEntry.data.title} description={seriesEntry.data.description} locale="en">
-  <PageHeader title={seriesEntry.data.title} description={seriesEntry.data.description} locale="en" />
+<BaseLayout title={title} description={description} locale="en">
+  <PageHeader title={title} description={description} locale="en" />
   <EntryList entries={posts} collection="posts" locale="en" />
 </BaseLayout>

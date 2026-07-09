@@ -2,26 +2,34 @@
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import EntryList from '../../../components/content/EntryList.astro';
 import PageHeader from '../../../components/content/PageHeader.astro';
+import { contentTypes } from '../../../config/content';
 import { locales, type Locale } from '../../../config/i18n';
-import { getLocalizedEntries, seriesPosts, entrySlug } from '../../../lib/content/entries';
+import { getLocalizedEntries, seriesPosts } from '../../../lib/content/entries';
 
 export async function getStaticPaths() {
+  const taxonomy = contentTypes.posts.taxonomies!.series;
   const paths = [];
   for (const locale of locales.filter((item) => item !== 'en')) {
-    const series = await getLocalizedEntries('series', locale);
     const posts = await getLocalizedEntries('posts', locale);
-    paths.push(...series.map((entry) => ({
-      params: { locale, series: entrySlug(entry as any) },
-      props: { locale, seriesEntry: entry, posts: seriesPosts(posts, entrySlug(entry as any)) }
-    })));
+    for (const slug of Object.keys(taxonomy.terms ?? {})) {
+      paths.push({
+        params: { locale, series: slug },
+        props: {
+          locale,
+          title: taxonomy.terms![slug].label[locale as Locale],
+          description: taxonomy.terms![slug].description?.[locale as Locale],
+          posts: seriesPosts(posts, slug)
+        }
+      });
+    }
   }
   return paths;
 }
 
-const { locale, seriesEntry, posts } = Astro.props as any as { locale: Locale; seriesEntry: any; posts: any[] };
+const { locale, title, description, posts } = Astro.props as any as { locale: Locale; title: string; description?: string; posts: any[] };
 ---
 
-<BaseLayout title={seriesEntry.data.title} description={seriesEntry.data.description} locale={locale}>
-  <PageHeader title={seriesEntry.data.title} description={seriesEntry.data.description} locale={locale} />
+<BaseLayout title={title} description={description} locale={locale}>
+  <PageHeader title={title} description={description} locale={locale} />
   <EntryList entries={posts} collection="posts" locale={locale} />
 </BaseLayout>

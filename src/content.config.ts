@@ -77,35 +77,39 @@ const resumeLanguage = z.object({
   level: z.string()
 });
 
-const pages = defineCollection({
-  loader: glob({ base: './src/content/pages', pattern: '**/*.{md,mdx}' }),
-  schema: baseSchema.extend({
-    layout: z.enum(['page', 'timeline', 'resume']).default('page'),
-    name: z.string().optional(),
-    jobTitle: z.string().optional(),
-    location: z.string().optional(),
-    email: z.string().optional(),
-    phone: z.string().optional(),
-    website: z.string().optional(),
-    linkedin: z.string().optional(),
-    github: z.string().optional(),
-    summary: z.string().optional(),
-    experience: z.array(resumeExperience).optional(),
-    education: z.array(resumeEducation).optional(),
-    skills: z.array(resumeSkillGroup).optional(),
-    certifications: z.array(resumeCertification).optional(),
-    languages: z.array(resumeLanguage).optional()
-  })
+const pageVariant = baseSchema.extend({
+  layout: z.literal('page')
 });
 
-const series = defineCollection({
-  loader: glob({ base: './src/content/series', pattern: '**/*.{md,mdx}' }),
-  schema: baseSchema
+const timelineVariant = baseSchema.extend({
+  layout: z.literal('timeline')
+});
+
+const resumeVariant = baseSchema.extend({
+  layout: z.literal('resume'),
+  name: z.string().optional(),
+  jobTitle: z.string().optional(),
+  location: z.string().optional(),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  website: z.string().optional(),
+  linkedin: z.string().optional(),
+  github: z.string().optional(),
+  summary: z.string().optional(),
+  experience: z.array(resumeExperience).optional(),
+  education: z.array(resumeEducation).optional(),
+  skills: z.array(resumeSkillGroup).optional(),
+  certifications: z.array(resumeCertification).optional(),
+  languages: z.array(resumeLanguage).optional()
+});
+
+const pages = defineCollection({
+  loader: glob({ base: './src/content/pages', pattern: '**/*.{md,mdx}' }),
+  schema: z.discriminatedUnion('layout', [pageVariant, timelineVariant, resumeVariant])
 });
 
 export const collections = {
   posts,
   projects,
-  pages,
-  series
+  pages
 };

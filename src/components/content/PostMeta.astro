@@ -6,7 +6,9 @@ import { formatDate, slugTerm } from '../../lib/content/entries';
 import SeriesNav from './SeriesNav.astro';
 
 interface SeriesGroup {
-  seriesEntry: CollectionEntry<'series'>;
+  slug: string;
+  title: string;
+  href: string;
   posts: CollectionEntry<'posts'>[];
 }
 

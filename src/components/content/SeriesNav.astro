@@ -6,7 +6,12 @@ import { localizedEntryPath } from '../../lib/content/entries';
 import { useTranslations } from '../../i18n/utils';
 
 interface SeriesGroup {
-  seriesEntry: CollectionEntry<'series'>;
+  /** 系列词条 slug */
+  slug: string;
+  /** 系列标题 */
+  title: string;
+  /** 系列详情页 href */
+  href: string;
   posts: CollectionEntry<'posts'>[];
 }
 
@@ -23,9 +28,9 @@ const groupId = `series-nav-${current.id.replace(/[^a-zA-Z0-9]+/g, '-')}`;
 
 {groups.length === 1 && (
   <div class="text-sm">
-    <a href={localizedEntryPath('series', groups[0].seriesEntry as any)} class="flex items-center gap-1.5 font-semibold text-foreground transition-colors hover:text-primary">
+    <a href={groups[0].href} class="flex items-center gap-1.5 font-semibold text-foreground transition-colors hover:text-primary">
       <Icon name="lucide:bookmark" class="h-3.5 w-3.5" />
-      {groups[0].seriesEntry.data.title}
+      {groups[0].title}
     </a>
     <ol class="mt-2 max-h-32 space-y-1 overflow-y-auto">
       {groups[0].posts.map((post, index) => {
@@ -69,7 +74,7 @@ const groupId = `series-nav-${current.id.replace(/[^a-zA-Z0-9]+/g, '-')}`;
               tabindex={index === 0 ? 0 : -1}
             >
               <Icon name="lucide:bookmark" class="h-3 w-3" />
-              {group.seriesEntry.data.title}
+              {group.title}
               <span class="rounded-full bg-primary/10 px-1.5 py-0.5 text-xs font-bold text-primary">
                 {currentIndex + 1}/{group.posts.length}
               </span>

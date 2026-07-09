@@ -14,16 +14,6 @@ const systemRoutes = {
     href: '/archives/',
     icon: 'lucide:archive'
   },
-  tags: {
-    label: { en: 'Tags', 'zh-cn': '标签' },
-    href: '/tags/',
-    icon: 'lucide:tags'
-  },
-  series: {
-    label: { en: 'Series', 'zh-cn': '系列' },
-    href: '/series/',
-    icon: 'lucide:bookmark'
-  },
   resume: {
     label: { en: 'Resume', 'zh-cn': '简历' },
     href: '/resume/',
@@ -35,12 +25,29 @@ const systemRoutes = {
   icon: string;
 }>;
 
+// 从 contentTypes 的分类法配置自动派生导航路由
+const taxonomyRoutes = Object.fromEntries(
+  Object.entries(contentTypes)
+    .filter(([, config]) => config.taxonomies)
+    .flatMap(([, config]) =>
+      Object.entries(config.taxonomies!).map(([taxId, taxConfig]) => [
+        taxId,
+        {
+          label: taxConfig.label,
+          href: `/${taxId}/`,
+          icon: taxConfig.icon ?? 'lucide:tag'
+        }
+      ])
+    )
+);
+
 const routeRegistry = {
   ...Object.fromEntries(Object.entries(contentTypes).map(([id, config]) => [id, {
     label: config.label,
     href: config.path,
     icon: config.icon
   }])),
+  ...taxonomyRoutes,
   ...systemRoutes
 } as Record<string, {
   label: Record<Locale, string>;
