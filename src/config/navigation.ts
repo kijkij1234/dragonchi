@@ -13,11 +13,6 @@ const systemRoutes = {
     label: { en: 'Archives', 'zh-cn': '归档' },
     href: '/archives/',
     icon: 'lucide:archive'
-  },
-  tags: {
-    label: { en: 'Tags', 'zh-cn': '标签' },
-    href: '/tags/',
-    icon: 'lucide:tags'
   }
 } satisfies Record<string, {
   label: Record<Locale, string>;

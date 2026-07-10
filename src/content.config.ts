@@ -1,6 +1,8 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+const taxonomyTerm = z.string().trim().min(1);
+
 const baseSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
@@ -8,7 +10,6 @@ const baseSchema = z.object({
   updatedDate: z.coerce.date().optional(),
   draft: z.boolean().default(false),
   cover: z.string().optional(),
-  tags: z.array(z.string()).default([]),
   lang: z.enum(['en', 'zh-cn']).optional(),
   toc: z.union([z.boolean(), z.enum(['center', 'side'])]).optional(),
   comments: z.boolean().optional(),
@@ -21,13 +22,16 @@ const baseSchema = z.object({
 const posts = defineCollection({
   loader: glob({ base: './src/content/posts', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
-    pubDate: z.coerce.date()
+    pubDate: z.coerce.date(),
+    tags: z.array(taxonomyTerm).default([]),
+    categories: z.array(taxonomyTerm).default([])
   })
 });
 
 const projects = defineCollection({
   loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
+    tags: z.array(taxonomyTerm).default([]),
     links: z.array(z.object({
       label: z.string(),
       url: z.string().url(),

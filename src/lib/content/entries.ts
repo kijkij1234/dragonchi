@@ -43,16 +43,36 @@ export function formatDate(date: Date | undefined, locale: Locale) {
   }).format(date);
 }
 
-export function uniqueTerms(entries: Array<CollectionEntry<'posts'>>, field: 'tags') {
-  const terms = new Map<string, number>();
-  for (const entry of entries) {
-    for (const term of entry.data[field] || []) {
-      terms.set(term, (terms.get(term) || 0) + 1);
-    }
+/** 生成指向当前语言 Archives 筛选状态的链接。 */
+export function archiveFilterPath(locale: Locale, filter: 'category' | 'tag', value: string) {
+  const query = new URLSearchParams({ [filter]: value });
+  return `${getLocalePath(locale, '/archives/')}?${query.toString()}`;
+}
+
+export type ArchiveTerm = {
+  value: string;
+  count: number;
+};
+
+/** 收集当前 locale 已发布 posts 的归档筛选词条。 */
+export function collectArchiveTerms(
+  posts: Array<CollectionEntry<'posts'>>,
+  field: 'tags' | 'categories',
+  locale: Locale
+): ArchiveTerm[] {
+  const counts = new Map<string, number>();
+
+  for (const post of posts) {
+    const terms = new Set((post.data[field] || []).map((term) => term.trim()).filter(Boolean));
+    for (const term of terms) counts.set(term, (counts.get(term) || 0) + 1);
   }
-  return [...terms.entries()]
-    .map(([name, count]) => ({ name, count, slug: slugTerm(name) }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const collator = new Intl.Collator(locale === 'zh-cn' ? 'zh-CN' : locale);
+  return [...counts.entries()]
+    .map(([value, count]) => ({ value, count }))
+    .sort((a, b) => field === 'tags'
+      ? b.count - a.count || collator.compare(a.value, b.value)
+      : collator.compare(a.value, b.value));
 }
 
 export function adjacentEntries<T extends ContentType>(entries: Array<CollectionEntry<T>>, current: CollectionEntry<T>) {
@@ -77,12 +97,4 @@ export function relatedPosts(posts: Array<CollectionEntry<'posts'>>, current: Co
     .sort((a, b) => b.score - a.score || entryDate(b.entry as any).getTime() - entryDate(a.entry as any).getTime())
     .slice(0, limit)
     .map((item) => item.entry);
-}
-
-export function slugTerm(value: string) {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, '-')
-    .replace(/^-|-$/g, '');
 }

@@ -10,7 +10,7 @@ English is the default language. Simplified Chinese is included as an example lo
 
 - Astro-native content collections for posts, projects, and pages.
 - Configurable content types, card styles, list layouts, and home sections.
-- Tags-only taxonomy.
+- Post categories and tags with shareable filtering on the Archives page.
 - Markdown alerts, tabs, math, Mermaid, galleries, lightbox, and Expressive Code.
 - Theme tokens, dark mode, search, dock, table of contents, RSS, and sitemap.
 - GitHub Pages workflow for publishing an example site.
@@ -34,9 +34,20 @@ pnpm build
 Navigation can use built-in keys or custom items:
 
 ```ts
-nav: ['posts', 'projects', 'archives', 'tags'],
-footerNav: ['archives', 'tags']
+nav: ['posts', 'projects', 'archives'],
+footerNav: ['archives']
 ```
+
+## Content Taxonomy
+
+Posts support locale-local `categories` and `tags`. The Archives page discovers terms from published posts and filters them with shareable `category` and `tag` query parameters; no taxonomy registry or standalone tag pages are required.
+
+```yaml
+categories: [Guides]
+tags: [Astro, Markdown]
+```
+
+Projects keep their own `tags` for cards and search, but do not appear in Archives. Regular pages do not have taxonomy fields.
 
 ## Markdown Tabs
 

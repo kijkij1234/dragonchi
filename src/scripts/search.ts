@@ -7,6 +7,7 @@ type SearchItem = {
   lang: string;
   type: string;
   tags?: string[];
+  categories?: string[];
   content?: string;
 };
 
@@ -60,7 +61,7 @@ async function ensureIndex() {
   const data = await indexPromise;
   if (!fuse) {
     fuse = new Fuse(data.filter((item) => item.lang === locale), {
-      keys: ['title', 'description', 'tags', 'content'],
+      keys: ['title', 'description', 'tags', 'categories', 'content'],
       threshold: 0.35,
       ignoreLocation: true
     });

@@ -1,13 +1,15 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { getLocalePath, type Locale } from '../../config/i18n';
-import { formatDate, slugTerm } from '../../lib/content/entries';
+import type { Locale } from '../../config/i18n';
+import { archiveFilterPath, formatDate } from '../../lib/content/entries';
+import { useTranslations } from '../../i18n/utils';
 
 interface Props {
   title: string;
   description?: string;
   date?: Date;
   locale: Locale;
+  categories?: string[];
   tags?: string[];
 }
 
@@ -16,10 +18,16 @@ const {
   description,
   date,
   locale,
+  categories = [],
   tags = []
 } = Astro.props;
 
-const hasTaxonomy = tags.length > 0;
+const t = useTranslations(locale);
+const taxonomyGroups = [
+  { label: t('archive.filter.categories'), filter: 'category', prefix: '', terms: categories },
+  { label: t('archive.filter.tags'), filter: 'tag', prefix: '#', terms: tags }
+] as const;
+const hasTaxonomy = taxonomyGroups.some((group) => group.terms.length > 0);
 ---
 
 <header class="mb-10">
@@ -37,14 +45,21 @@ const hasTaxonomy = tags.length > 0;
     </div>
 
     {hasTaxonomy && (
-      <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-border pt-4 text-sm">
-        {tags.map((tag) => (
-          <a
-            href={getLocalePath(locale, `/tags/${slugTerm(tag)}/`)}
-            class="rounded-full bg-muted px-3 py-1 text-muted-foreground transition-colors hover:text-primary"
-          >
-            #{tag}
-          </a>
+      <div class="mt-4 space-y-3 border-t border-border pt-4 text-sm">
+        {taxonomyGroups.filter((group) => group.terms.length > 0).map((group) => (
+          <div class="grid gap-2 sm:grid-cols-[6rem_minmax(0,1fr)] sm:items-start">
+            <span class="pt-1.5 font-medium text-muted-foreground">{group.label}</span>
+            <div class="flex flex-wrap gap-2">
+              {group.terms.map((term) => (
+                <a
+                  href={archiveFilterPath(locale, group.filter, term)}
+                  class="rounded-full bg-muted px-3 py-1.5 text-muted-foreground transition-colors duration-200 hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 motion-reduce:transition-none"
+                >
+                  {group.prefix}{term}
+                </a>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     )}

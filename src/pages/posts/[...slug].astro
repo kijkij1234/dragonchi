@@ -42,6 +42,7 @@ const related = relatedPosts(posts, entry, siteConfig.post.relatedCount);
     description={entry.data.description}
     date={entry.data.pubDate}
     locale="en"
+    categories={entry.data.categories}
     tags={entry.data.tags}
   />
   <article class="prose mb-12 max-w-none">

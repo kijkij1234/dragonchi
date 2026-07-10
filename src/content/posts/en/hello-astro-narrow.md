@@ -4,6 +4,7 @@ description: "A concise guide to configuring Astro Narrow, content types, markdo
 pubDate: 2026-06-27
 cover: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80"
 tags: ["Astro", "Theme", "Markdown"]
+categories: ["Guides"]
 toc: "side"
 math: true
 mermaid: true
@@ -47,8 +48,8 @@ export const siteConfig = {
 :::tab{title="Navigation"}
 ```ts
 export const siteConfig = {
-  nav: ['posts', 'projects', 'archives', 'tags'],
-  footerNav: ['archives', 'tags']
+  nav: ['posts', 'projects', 'archives'],
+  footerNav: ['archives']
 }
 ```
 :::
@@ -102,12 +103,13 @@ Posts use Astro content collection fields. Keep frontmatter small and predictabl
 | `pubDate` | Publish date |
 | `updatedDate` | Optional update date |
 | `cover` | Cover image |
-| `tags` | Tag taxonomy |
+| `categories` | Post categories used by Archives filtering |
+| `tags` | Post tags used by Archives filtering |
 | `toc` | `center`, `side`, `true`, or `false` |
 | `comments` | Per-entry comments |
 | `math`, `mermaid`, `gallery`, `lightbox` | Feature hints |
 
-Project entries also support `featured` and `links`.
+Categories and tags are discovered automatically from published posts in the current locale. Projects keep their own tags for cards and search, but they do not appear in Archives. Project entries also support `featured` and `links`.
 
 ```yaml
 links:

@@ -29,8 +29,8 @@ export const siteConfig = {
       enabled: true
     }
   },
-  nav: ['posts', 'projects', 'archives', 'tags'],
-  footerNav: ['archives', 'tags'],
+  nav: ['posts', 'projects', 'archives'],
+  footerNav: ['archives'],
   comments: {
     enabled: false,
     provider: 'giscus',
