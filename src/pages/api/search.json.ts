@@ -16,7 +16,7 @@ export async function GET() {
         type: collection,
         tags: 'tags' in entry.data ? entry.data.tags : [],
         date: entry.data.pubDate?.toISOString?.() || '',
-        content: (entry.body ?? '').slice(0, 8000)
+        content: entry.body.slice(0, 8000)
       });
     }
   }

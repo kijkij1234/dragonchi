@@ -21,9 +21,7 @@ const baseSchema = z.object({
 const posts = defineCollection({
   loader: glob({ base: './src/content/posts', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
-    pubDate: z.coerce.date(),
-    series: z.array(z.string()).optional(),
-    seriesOrder: z.number().optional()
+    pubDate: z.coerce.date()
   })
 });
 
@@ -40,72 +38,11 @@ const projects = defineCollection({
   })
 });
 
-const resumeExperience = z.object({
-  company: z.string(),
-  title: z.string(),
-  location: z.string().optional(),
-  start: z.string(),
-  end: z.string(),
-  description: z.string().optional(),
-  highlights: z.array(z.string()).optional(),
-  stack: z.array(z.string()).optional()
-});
-
-const resumeEducation = z.object({
-  institution: z.string(),
-  degree: z.string(),
-  location: z.string().optional(),
-  start: z.string(),
-  end: z.string(),
-  description: z.string().optional()
-});
-
-const resumeSkillGroup = z.object({
-  category: z.string(),
-  items: z.array(z.string())
-});
-
-const resumeCertification = z.object({
-  name: z.string(),
-  issuer: z.string(),
-  date: z.string().optional(),
-  url: z.string().optional()
-});
-
-const resumeLanguage = z.object({
-  language: z.string(),
-  level: z.string()
-});
-
-const pageVariant = baseSchema.extend({
-  layout: z.literal('page')
-});
-
-const timelineVariant = baseSchema.extend({
-  layout: z.literal('timeline')
-});
-
-const resumeVariant = baseSchema.extend({
-  layout: z.literal('resume'),
-  name: z.string().optional(),
-  jobTitle: z.string().optional(),
-  location: z.string().optional(),
-  email: z.string().optional(),
-  phone: z.string().optional(),
-  website: z.string().optional(),
-  linkedin: z.string().optional(),
-  github: z.string().optional(),
-  summary: z.string().optional(),
-  experience: z.array(resumeExperience).optional(),
-  education: z.array(resumeEducation).optional(),
-  skills: z.array(resumeSkillGroup).optional(),
-  certifications: z.array(resumeCertification).optional(),
-  languages: z.array(resumeLanguage).optional()
-});
-
 const pages = defineCollection({
   loader: glob({ base: './src/content/pages', pattern: '**/*.{md,mdx}' }),
-  schema: z.discriminatedUnion('layout', [pageVariant, timelineVariant, resumeVariant])
+  schema: baseSchema.extend({
+    layout: z.enum(['page', 'timeline']).default('page')
+  })
 });
 
 export const collections = {

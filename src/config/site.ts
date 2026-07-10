@@ -30,7 +30,7 @@ export const siteConfig = {
     }
   },
   nav: ['posts', 'projects', 'archives', 'tags'],
-  footerNav: ['archives', 'tags', 'series', 'resume'],
+  footerNav: ['archives', 'tags'],
   comments: {
     enabled: false,
     provider: 'giscus',
