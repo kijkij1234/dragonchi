@@ -22,7 +22,7 @@ Astro Narrow is an Astro-native version of the Narrow reading experience. It use
 | --- | --- |
 | `name`, `shortName`, `description` | Site metadata |
 | `author` | Home profile card and social links |
-| `contentWidth` | Main layout width |
+| `contentWidth` | Default layout width; visitors can adjust it from Dock display settings |
 | `ui.navbar.sticky` | Sticky navbar switch |
 | `ui.dock.enabled` | Bottom dock switch |
 | `nav` | Header navigation |

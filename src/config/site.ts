@@ -88,7 +88,7 @@ export const siteConfig = {
     avatar: string;
     social: Array<{ name: string; url: string; icon: string }>;
   };
-  contentWidth: string;
+  contentWidth: `${number}rem`;
   ui: {
     navbar: {
       sticky: boolean;

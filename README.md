@@ -117,6 +117,7 @@ Tabs use `remark-directive` syntax. The outer container uses four colons because
 
 ```ts
 export const siteConfig = {
+  // Default page width; visitors can override it from Dock display settings.
   contentWidth: "56rem",
 };
 ```

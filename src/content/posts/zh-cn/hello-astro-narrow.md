@@ -22,7 +22,7 @@ Astro Narrow 是 Narrow 阅读体验的 Astro-native 实现。它使用内容集
 | --- | --- |
 | `name`, `shortName`, `description` | 站点元信息 |
 | `author` | 首页个人信息卡片和社交链接 |
-| `contentWidth` | 主体布局宽度 |
+| `contentWidth` | 默认主体布局宽度，访客可在 Dock 显示设置中调整 |
 | `ui.navbar.sticky` | 是否固定导航栏 |
 | `ui.dock.enabled` | 是否显示底部 dock |
 | `nav` | 顶部导航 |

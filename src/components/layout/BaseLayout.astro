@@ -43,18 +43,26 @@ const faviconIco = `${assetBase.replace(/\/?$/, '/')}favicon.ico`;
 const themeInit = `
 (() => {
   const root = document.documentElement;
-  const theme = localStorage.getItem('theme') || 'default';
-  const mode = localStorage.getItem('color-mode');
-  root.dataset.theme = theme;
-  if (mode === 'dark' || (!mode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    root.classList.add('dark');
+  try {
+    const theme = localStorage.getItem('theme') || 'default';
+    const mode = localStorage.getItem('color-mode');
+    const contentWidth = localStorage.getItem('content-width');
+    root.dataset.theme = theme;
+    if (contentWidth && /^\\d+(?:\\.\\d+)?rem$/.test(contentWidth)) {
+      root.style.setProperty('--layout-content-width', contentWidth);
+    }
+    if (mode === 'dark' || (!mode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      root.classList.add('dark');
+    }
+  } catch {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
   }
 })();
 `;
 ---
 
 <!doctype html>
-<html lang={htmlLang} data-theme="default">
+<html lang={htmlLang} data-theme="default" style={`--layout-content-width: ${siteConfig.contentWidth}`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -66,7 +74,7 @@ const themeInit = `
     <script is:inline set:html={themeInit}></script>
   </head>
   <body class="bg-background text-foreground min-h-screen antialiased">
-    <main class="mx-auto min-h-screen w-full px-4" style={`--layout-content-width: ${siteConfig.contentWidth}; max-width: var(--layout-content-width)`}>
+    <main class="mx-auto min-h-screen w-full max-w-[var(--layout-content-width)] px-4">
       <Header locale={locale} />
       <slot />
       {comments && <Comments />}
