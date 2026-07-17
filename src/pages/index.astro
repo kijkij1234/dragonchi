@@ -2,11 +2,11 @@
 import BaseLayout from '../components/layout/BaseLayout.astro';
 import HomePage from '../components/home/HomePage.astro';
 import { contentTypes } from '../config/content';
-import { getLocalePath } from '../config/i18n';
+import { defaultLocale, getLocalePath } from '../config/i18n';
 import { siteConfig } from '../config/site';
 import { getLocalizedEntries } from '../lib/content/entries';
 
-const locale = 'en';
+const locale = defaultLocale;
 const sections = await Promise.all(Object.entries(contentTypes)
   .filter(([, config]) => config.home?.enabled)
   .map(async ([id, config]) => {

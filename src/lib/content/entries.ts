@@ -1,7 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { getLocaleFromId, getLocalePath, stripLocaleFromId, type Locale } from '../../config/i18n';
 
-export type ContentType = 'posts' | 'projects' | 'pages';
+export type ContentType = 'posts' | 'pages';
 
 export function entryLocale(entry: CollectionEntry<ContentType>) {
   return entry.data.lang || getLocaleFromId(entry.id);
@@ -36,7 +36,7 @@ export function localizedEntryPath(collection: ContentType, entry: CollectionEnt
 
 export function formatDate(date: Date | undefined, locale: Locale) {
   if (!date) return '';
-  return new Intl.DateTimeFormat(locale === 'zh-cn' ? 'zh-CN' : 'en', {
+  return new Intl.DateTimeFormat('zh-CN', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -83,18 +83,3 @@ export function adjacentEntries<T extends ContentType>(entries: Array<Collection
   };
 }
 
-export function relatedPosts(posts: Array<CollectionEntry<'posts'>>, current: CollectionEntry<'posts'>, limit = 3) {
-  const currentTerms = new Set(current.data.tags || []);
-
-  return posts
-    .filter((entry) => entry.id !== current.id)
-    .map((entry) => {
-      const score = (entry.data.tags || []).filter((term) => currentTerms.has(term)).length;
-
-      return { entry, score };
-    })
-    .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score || entryDate(b.entry as any).getTime() - entryDate(a.entry as any).getTime())
-    .slice(0, limit)
-    .map((item) => item.entry);
-}

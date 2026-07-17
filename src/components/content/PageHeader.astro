@@ -7,12 +7,13 @@ interface Props {
   description?: string;
   date?: Date;
   locale: Locale;
+  class?: string;
 }
 
-const { title, description, date, locale } = Astro.props;
+const { title, description, date, locale, class: className } = Astro.props;
 ---
 
-<header class="mb-10">
+<header class:list={['mb-10', className]}>
   {date && <time class="text-sm text-muted-foreground" datetime={date.toISOString()}>{formatDate(date, locale)}</time>}
   <h1 class="mt-2 text-3xl font-bold tracking-normal sm:text-4xl">{title}</h1>
   {description && <p class="mt-4 max-w-2xl text-muted-foreground">{description}</p>}

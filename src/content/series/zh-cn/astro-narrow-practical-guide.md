@@ -1,6 +1,7 @@
 ---
 title: "Astro Narrow 实战指南"
 description: "从内容编写和系列组织，到主题定制、多语言路由与生产部署的完整阅读路径。"
+seriesicon: "/favicon.svg"
 chapters:
   - zh-cn/authoring-content-collections
   - zh-cn/configure-series

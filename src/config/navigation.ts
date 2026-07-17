@@ -9,15 +9,30 @@ export type NavigationConfigItem = string | {
 };
 
 const systemRoutes = {
+  home: {
+    label: { 'zh-cn': '首页' },
+    href: '/',
+    icon: 'lucide:home'
+  },
   archives: {
-    label: { en: 'Archives', 'zh-cn': '归档' },
+    label: { 'zh-cn': '归档' },
     href: '/archives/',
     icon: 'lucide:archive'
   },
   series: {
-    label: { en: 'Series', 'zh-cn': '系列' },
+    label: { 'zh-cn': '合集' },
     href: '/series/',
-    icon: 'lucide:list-ordered'
+    icon: 'lucide:folder'
+  },
+  credits: {
+    label: { 'zh-cn': '鸣谢' },
+    href: '/credits/',
+    icon: 'lucide:heart-handshake'
+  },
+  about: {
+    label: { 'zh-cn': '关于' },
+    href: '/about/',
+    icon: 'lucide:circle-user-round'
   }
 } satisfies Record<string, {
   label: Record<Locale, string>;

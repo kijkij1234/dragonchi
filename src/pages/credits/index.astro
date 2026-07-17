@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import PageHeader from '../../components/content/PageHeader.astro';
+import { defaultLocale } from '../../config/i18n';
+
+type Contributor = {
+  name: string;
+  avatar: string;
+};
+
+const localizationMembers: Contributor[] = [
+  { name: '汉化成员', avatar: '/favicon.svg' }
+];
+
+const specialThanks: Contributor[] = [
+  { name: '特别鸣谢', avatar: '/favicon.svg' }
+];
+
+const sections = [
+  { title: '汉化成员', contributors: localizationMembers },
+  { title: '特别鸣谢', contributors: specialThanks }
+];
+---
+
+<BaseLayout title="鸣谢" description="感谢参与汉化与支持项目的贡献者。" locale={defaultLocale}>
+  <PageHeader title="鸣谢" description="感谢参与汉化与支持项目的贡献者。" locale={defaultLocale} />
+
+  <div class="credits-sections space-y-10">
+    {sections.map((section, sectionIndex) => (
+      <section
+        aria-labelledby={`credits-${section.title}`}
+        class="credits-section"
+        style={`--credits-delay: ${sectionIndex * 90}ms`}
+      >
+        <div class="mb-4 flex items-center justify-between gap-4 border-b border-border pb-2">
+          <h2 id={`credits-${section.title}`} class="text-xl font-semibold">{section.title}</h2>
+          <span class="text-sm tabular-nums text-muted-foreground">{section.contributors.length}</span>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {section.contributors.map((contributor, contributorIndex) => (
+            <article
+              class="credits-card surface-card flex min-w-0 items-center gap-4 p-4"
+              style={`--credits-delay: ${sectionIndex * 90 + contributorIndex * 55 + 120}ms`}
+            >
+              <img
+                src={contributor.avatar}
+                alt=""
+                class="credits-avatar h-14 w-14 shrink-0 rounded-full border border-border bg-muted object-cover"
+                loading="lazy"
+              />
+              <h3 class="min-w-0 truncate text-base font-semibold text-foreground">{contributor.name}</h3>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .credits-section,
+  .credits-card {
+    animation: credits-enter 520ms ease both;
+    animation-delay: var(--credits-delay);
+  }
+
+  .credits-card {
+    transition:
+      transform 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease,
+      background-color 220ms ease;
+  }
+
+  .credits-card:hover {
+    transform: translateY(-0.25rem);
+    border-color: color-mix(in oklch, var(--color-primary), transparent 55%);
+    background: color-mix(in oklch, var(--color-primary), transparent 94%);
+    box-shadow: var(--surface-shadow-strong);
+  }
+
+  .credits-avatar {
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+
+  .credits-card:hover .credits-avatar {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 0.2rem color-mix(in oklch, var(--color-primary), transparent 84%);
+  }
+
+  @keyframes credits-enter {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .credits-section,
+    .credits-card {
+      animation: none;
+    }
+
+    .credits-card,
+    .credits-avatar {
+      transition: none;
+    }
+
+    .credits-card:hover,
+    .credits-card:hover .credits-avatar {
+      transform: none;
+    }
+  }
+</style>

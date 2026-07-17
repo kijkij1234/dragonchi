@@ -7,20 +7,19 @@ export const siteConfig = {
   author: {
     name: 'Astro Narrow',
     title: {
-      en: 'A clean and minimal Astro theme',
       'zh-cn': '一个干净克制的 Astro 主题'
     },
     description: {
-      en: 'Writing, projects, and notes — a compact space for ideas that keep their shape.',
       'zh-cn': '写作、项目与笔记 —— 一个保持克制、注重结构感的内容空间。'
     },
     avatar: '/favicon.svg',
     social: [
-      { name: 'GitHub', url: 'https://github.com/', icon: 'simple-icons:github' },
-      { name: 'Email', url: 'mailto:hello@example.com', icon: 'lucide:mail' }
+      { name: '哔哩哔哩', url: 'https://space.bilibili.com/3706970171247569', icon: 'simple-icons:bilibili' },
+      { name: '小红书', url: 'https://xhslink.com/m/3ITvrI6Uxex', icon: 'simple-icons:xiaohongshu' },
+      { name: '企鹅群', url: 'https://github.com/', icon: 'simple-icons:qq' }
     ]
   },
-  contentWidth: '56rem',
+  contentWidth: '60rem',
   ui: {
     navbar: {
       sticky: true
@@ -29,8 +28,8 @@ export const siteConfig = {
       enabled: true
     }
   },
-  nav: ['posts', 'series', 'projects', 'archives'],
-  footerNav: ['archives'],
+  nav: ['home', 'posts', 'series', 'archives', 'credits', 'about'],
+  footerNav: [],
   comments: {
     enabled: false,
     provider: 'giscus',
@@ -68,15 +67,7 @@ export const siteConfig = {
   lightbox: {
     enabled: true
   },
-  post: {
-    relatedCount: 3,
-    license: {
-      enabled: true,
-      name: 'CC BY-NC-SA 4.0',
-      url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
-      description: 'This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.'
-    }
-  }
+  post: {}
 } satisfies {
   name: string;
   shortName: string;

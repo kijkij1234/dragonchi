@@ -8,6 +8,8 @@ type SearchItem = {
   type: string;
   tags?: string[];
   categories?: string[];
+  cover?: string;
+  date?: string;
   content?: string;
 };
 
@@ -19,7 +21,7 @@ const empty = document.getElementById('search-empty');
 const loading = document.getElementById('search-loading');
 const noResults = document.getElementById('search-no-results');
 const results = document.getElementById('search-results');
-const locale = modal?.dataset.locale || 'en';
+const locale = modal?.dataset.locale || 'zh-cn';
 const base = import.meta.env.BASE_URL || '/';
 let fuse: Fuse<SearchItem> | null = null;
 let indexPromise: Promise<SearchItem[]> | null = null;
@@ -30,6 +32,32 @@ function show(element: HTMLElement | null) {
 
 function hide(element: HTMLElement | null) {
   element?.classList.add('hidden');
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function assetPath(path: string) {
+  if (!path) return '';
+  if (/^(https?:)?\/\//.test(path) || path.startsWith('data:')) return path;
+  return `${base.replace(/\/?$/, '/')}${path.replace(/^\//, '')}`;
+}
+
+function formatDate(value?: string) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }).format(date);
 }
 
 function openSearch() {
@@ -90,8 +118,20 @@ function renderSearch(query: string) {
   for (const { item } of items) {
     const link = document.createElement('a');
     link.href = item.url;
-    link.className = 'block rounded-md px-3 py-2 hover:bg-accent';
-    link.innerHTML = `<div class="font-medium">${item.title}</div><div class="mt-1 line-clamp-2 text-sm text-muted-foreground">${item.description || ''}</div>`;
+    link.className = 'search-bookshelf-link group';
+    const cover = assetPath(item.cover || '');
+    const coverMarkup = cover
+      ? `<img src="${escapeHtml(cover)}" alt="" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />`
+      : `<div class="flex h-full w-full items-center justify-center bg-muted text-primary">
+          <span class="text-lg">${item.type === 'series' ? '集' : item.type === 'pages' ? '页' : '书'}</span>
+        </div>`;
+    link.innerHTML = `
+      <div class="search-bookshelf-cover">${coverMarkup}</div>
+      <div class="search-bookshelf-meta">
+        ${item.date ? `<time class="search-bookshelf-date" datetime="${escapeHtml(item.date)}">${escapeHtml(formatDate(item.date))}</time>` : '<span class="search-bookshelf-date"></span>'}
+        <div class="search-bookshelf-title">${escapeHtml(item.title)}</div>
+      </div>
+    `;
     results.appendChild(link);
   }
 }

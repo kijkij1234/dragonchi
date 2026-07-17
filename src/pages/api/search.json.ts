@@ -3,7 +3,7 @@ import { entryLocale, localizedEntryPath, type ContentType } from '../../lib/con
 import { localizedSeriesPath, seriesLocale } from '../../lib/content/series';
 
 export async function GET() {
-  const collections: ContentType[] = ['posts', 'projects', 'pages'];
+  const collections: ContentType[] = ['posts', 'pages'];
   const items = [];
 
   for (const collection of collections) {
@@ -18,6 +18,7 @@ export async function GET() {
         tags: 'tags' in entry.data ? entry.data.tags : [],
         categories: 'categories' in entry.data ? entry.data.categories : [],
         date: entry.data.pubDate?.toISOString?.() || '',
+        cover: 'bookcover' in entry.data ? entry.data.bookcover || '' : '',
         content: entry.body.slice(0, 8000)
       });
     }
@@ -34,6 +35,7 @@ export async function GET() {
       tags: [],
       categories: [],
       date: '',
+      cover: entry.data.seriesicon || '',
       content: entry.body.slice(0, 8000)
     });
   }

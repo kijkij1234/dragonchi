@@ -3,6 +3,7 @@ title: "Astro Narrow 主题配置指南"
 description: "介绍 Astro Narrow 的站点配置、内容类型、Markdown 能力和项目链接配置。"
 pubDate: 2026-06-27
 cover: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80"
+bookcover: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"
 tags: ["Astro", "主题", "Markdown"]
 categories: ["指南"]
 toc: "side"
@@ -30,8 +31,6 @@ Astro Narrow 是 Narrow 阅读体验的 Astro-native 实现。它使用内容集
 | `comments` | Giscus 配置 |
 | `analytics` | Umami 配置 |
 | `gallery`, `lightbox` | Markdown 图片行为 |
-| `post.relatedCount` | 相关文章数量 |
-| `post.license` | 版权许可区块 |
 
 ::::tabs
 :::tab{title="基础信息"}
@@ -48,7 +47,7 @@ export const siteConfig = {
 :::tab{title="导航"}
 ```ts
 export const siteConfig = {
-  nav: ['posts', 'series', 'projects', 'archives'],
+  nav: ['home', 'posts', 'series', 'archives'],
   footerNav: ['archives']
 }
 ```
@@ -102,7 +101,8 @@ export const contentTypes = {
 | `description` | 摘要和 meta description |
 | `pubDate` | 发布日期 |
 | `updatedDate` | 可选更新日期 |
-| `cover` | 封面图 |
+| `cover` | 文章内封面图 |
+| `bookcover` | 书架封面图 |
 | `categories` | 用于归档筛选的文章分类 |
 | `tags` | 用于归档筛选的文章标签 |
 | `toc` | `center`, `side`, `true`, `false` |

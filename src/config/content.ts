@@ -1,6 +1,6 @@
 import type { Locale } from './i18n';
 
-export type ContentCollection = 'posts' | 'projects' | 'pages';
+export type ContentCollection = 'posts' | 'pages';
 export type EntryCardStyle = 'article' | 'showcase' | 'compact';
 export type EntryListLayout = 'stack' | 'grid';
 export type EntryGridColumns = 1 | 2 | 3;
@@ -15,10 +15,9 @@ export const contentTypes = {
   posts: {
     collection: 'posts',
     path: '/posts/',
-    icon: 'lucide:file-text',
+    icon: 'lucide:book-open',
     label: {
-      en: 'Posts',
-      'zh-cn': '文章'
+      'zh-cn': '作品'
     },
     showMeta: true,
     cardStyle: 'article',
@@ -28,30 +27,7 @@ export const contentTypes = {
       enabled: true,
       limit: 5,
       title: {
-        en: 'Recent Posts',
         'zh-cn': '最近文章'
-      }
-    }
-  },
-  projects: {
-    collection: 'projects',
-    path: '/projects/',
-    icon: 'lucide:layers',
-    label: {
-      en: 'Projects',
-      'zh-cn': '项目'
-    },
-    showMeta: true,
-    cardStyle: 'showcase',
-    listLayout: 'grid',
-    gridColumns: 3,
-    home: {
-      enabled: true,
-      limit: 3,
-      featuredOnly: true,
-      title: {
-        en: 'Featured Projects',
-        'zh-cn': '精选项目'
       }
     }
   }

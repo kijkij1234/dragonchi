@@ -10,7 +10,8 @@ const baseSchema = z.object({
   updatedDate: z.coerce.date().optional(),
   draft: z.boolean().default(false),
   cover: z.string().optional(),
-  lang: z.enum(['en', 'zh-cn']).optional(),
+  bookcover: z.string().optional(),
+  lang: z.enum(['zh-cn']).optional(),
   toc: z.union([z.boolean(), z.enum(['center', 'side'])]).optional(),
   comments: z.boolean().optional(),
   math: z.boolean().optional(),
@@ -28,20 +29,6 @@ const posts = defineCollection({
   })
 });
 
-const projects = defineCollection({
-  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
-  schema: baseSchema.extend({
-    tags: z.array(taxonomyTerm).default([]),
-    links: z.array(z.object({
-      label: z.string(),
-      url: z.string().url(),
-      icon: z.string().optional(),
-      variant: z.enum(['primary', 'secondary']).default('secondary')
-    })).default([]),
-    featured: z.boolean().default(false)
-  })
-});
-
 const pages = defineCollection({
   loader: glob({ base: './src/content/pages', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
@@ -55,14 +42,14 @@ const series = defineCollection({
     title: z.string(),
     description: z.string().optional(),
     draft: z.boolean().default(false),
-    lang: z.enum(['en', 'zh-cn']).optional(),
+    lang: z.enum(['zh-cn']).optional(),
+    seriesicon: z.string().optional(),
     chapters: z.array(reference('posts')).min(2)
   })
 });
 
 export const collections = {
   posts,
-  projects,
   pages,
   series
 };

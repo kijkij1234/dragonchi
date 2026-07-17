@@ -4,14 +4,14 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import Breadcrumbs from '../../../components/content/Breadcrumbs.astro';
 import PageHeader from '../../../components/content/PageHeader.astro';
 import SeriesChapterList from '../../../components/content/SeriesChapterList.astro';
-import { getLocalePath, locales, type Locale } from '../../../config/i18n';
+import { defaultLocale, getLocalePath, locales, type Locale } from '../../../config/i18n';
 import { siteConfig } from '../../../config/site';
 import { getLocalizedSeries, type ResolvedSeries } from '../../../lib/content/series';
 import { useTranslations } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
   const paths = [];
-  for (const locale of locales.filter((item) => item !== 'en')) {
+  for (const locale of locales.filter((item) => item !== defaultLocale)) {
     const series = await getLocalizedSeries(locale);
     paths.push(...series.map((item) => ({ params: { locale, slug: item.slug }, props: { item, locale } })));
   }
@@ -21,6 +21,12 @@ export async function getStaticPaths() {
 const { item, locale } = Astro.props as { item: ResolvedSeries; locale: Locale };
 const { Content } = await render(item.entry);
 const t = useTranslations(locale);
+
+function assetPath(path: string) {
+  if (/^(https?:)?\/\//.test(path) || path.startsWith('data:')) return path;
+  const base = import.meta.env.BASE_URL || '/';
+  return `${base.replace(/\/?$/, '/')}${path.replace(/^\//, '')}`;
+}
 ---
 
 <BaseLayout title={item.entry.data.title} description={item.entry.data.description} locale={locale}>
@@ -28,11 +34,16 @@ const t = useTranslations(locale);
     locale={locale}
     items={[
       { label: siteConfig.shortName, href: getLocalePath(locale, '/'), icon: 'lucide:home' },
-      { label: t('series.title'), href: getLocalePath(locale, '/series/'), icon: 'lucide:list-ordered' },
+      { label: t('series.title'), href: getLocalePath(locale, '/series/'), icon: 'lucide:folder' },
       { label: item.entry.data.title, icon: 'lucide:book-open' }
     ]}
   />
-  <PageHeader title={item.entry.data.title} description={item.entry.data.description} locale={locale} />
+  <div class="mb-10 flex items-start gap-4">
+    {item.entry.data.seriesicon && (
+      <img src={assetPath(item.entry.data.seriesicon)} alt="" class="mt-1 h-12 w-12 shrink-0 rounded-[var(--radius-panel)] border border-border object-cover" loading="eager" />
+    )}
+    <PageHeader title={item.entry.data.title} description={item.entry.data.description} locale={locale} class="mb-0" />
+  </div>
   <article class="prose max-w-none">
     <Content />
   </article>
