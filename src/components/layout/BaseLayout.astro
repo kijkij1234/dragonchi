@@ -38,8 +38,7 @@ const {
 const pageTitle = title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
 const htmlLang = localeMeta[locale].htmlLang;
 const assetBase = import.meta.env.BASE_URL || '/';
-const faviconSvg = `${assetBase.replace(/\/?$/, '/')}favicon.svg`;
-const faviconIco = `${assetBase.replace(/\/?$/, '/')}favicon.ico`;
+const faviconPng = `${assetBase.replace(/\/?$/, '/')}icon.png`;
 const themeInit = `
 (() => {
   const root = document.documentElement;
@@ -68,8 +67,7 @@ const themeInit = `
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href={faviconSvg} />
-    <link rel="icon" href={faviconIco} />
+    <link rel="icon" type="image/png" href={faviconPng} />
     <title>{pageTitle}</title>
     <script is:inline set:html={themeInit}></script>
   </head>
@@ -88,6 +86,7 @@ const themeInit = `
     <script>
       import '../../scripts/theme-controls.ts';
       import '../../scripts/reading-progress.ts';
+      import '../../scripts/sentence-cycle.ts';
       import '../../scripts/search.ts';
       import '../../scripts/toc.ts';
       import '../../scripts/gallery.ts';

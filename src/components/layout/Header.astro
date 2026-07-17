@@ -24,7 +24,7 @@ function isActive(href: string) {
 
 <header class:list={[headerClass, 'z-30 mt-5 mb-6']}>
   <div class="nav-shell grid min-h-16 grid-cols-[auto_1fr_auto] items-center gap-3 border px-4 shadow-[var(--surface-shadow)]">
-    <div class="flex min-w-9 items-center">
+    <div class="flex min-w-9 items-center gap-1">
       {homeItem && (
         <a
           class:list={[
@@ -38,6 +38,19 @@ function isActive(href: string) {
           <Icon name={homeItem.icon} class="h-4 w-4" />
         </a>
       )}
+      <button
+        type="button"
+        data-color-mode
+        class="theme-toggle-button grid h-9 w-9 place-items-center rounded-[var(--radius-control)] text-muted-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
+        aria-label={t('nav.theme')}
+        title={t('nav.theme')}
+        aria-pressed="false"
+      >
+        <span class="theme-toggle-icon-stack">
+          <Icon data-color-mode-light-icon name="lucide:sun" class="theme-toggle-icon h-4 w-4" />
+          <Icon data-color-mode-dark-icon name="lucide:moon" class="theme-toggle-icon hidden h-4 w-4" />
+        </span>
+      </button>
     </div>
 
     <nav class="hidden items-center justify-center gap-1 md:flex" aria-label="Primary">

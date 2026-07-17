@@ -104,8 +104,8 @@ const bookcover = collection === 'posts' && 'bookcover' in entry.data ? entry.da
     </a>
   </article>
 ) : (
-  <article class="bookshelf-item group">
-    <a href={href} class="bookshelf-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25">
+  <article class="bookshelf-item group motion-section">
+    <a href={href} class="bookshelf-link motion-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25">
       <div class="bookshelf-cover" aria-hidden={!bookcover}>
         {bookcover ? (
           <img src={bookcover} alt="" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />

@@ -124,6 +124,27 @@ a {
   backdrop-filter: blur(16px);
 }
 
+.theme-toggle-button {
+  overflow: hidden;
+}
+
+.theme-toggle-icon-stack {
+  display: grid;
+  place-items: center;
+}
+
+.theme-toggle-icon {
+  grid-area: 1 / 1;
+}
+
+.theme-toggle-button.is-switching .theme-toggle-icon-stack {
+  animation: theme-toggle-spin 420ms ease;
+}
+
+.theme-toggle-button.is-switching .theme-toggle-icon {
+  animation: theme-toggle-pop 420ms ease;
+}
+
 .footer-nav-link {
   display: inline-flex;
   min-height: 2.25rem;
@@ -142,18 +163,87 @@ a {
   color: var(--color-primary);
 }
 
+.motion-section,
+.motion-card {
+  animation: motion-enter 520ms ease both;
+  animation-delay: var(--motion-delay, 0ms);
+}
+
+.motion-card {
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+.motion-card:hover {
+  transform: translateY(-0.25rem);
+  border-color: color-mix(in oklch, var(--color-primary), transparent 55%);
+  background: color-mix(in oklch, var(--color-primary), transparent 94%);
+  box-shadow: var(--surface-shadow-strong);
+}
+
+.motion-avatar {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.motion-card:hover .motion-avatar {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 0.2rem color-mix(in oklch, var(--color-primary), transparent 84%);
+}
+
+@keyframes motion-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes theme-toggle-spin {
+  from {
+    transform: rotate(-120deg) scale(0.86);
+  }
+
+  to {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes theme-toggle-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.68);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .bookshelf-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
-  gap: 2.25rem 1.35rem;
+  grid-template-columns: repeat(auto-fill, minmax(9.35rem, 1fr));
+  gap: 1.55rem 0.85rem;
   position: relative;
-  padding: 0.5rem 0 1.25rem;
+  padding: 0.35rem 0 2.35rem;
 }
 
 .bookshelf-grid::before {
   content: "";
   position: absolute;
-  inset: auto 0 0;
+  inset: auto 0 0.9rem;
   height: 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-panel);
@@ -191,29 +281,11 @@ a {
 .bookshelf-cover {
   position: relative;
   aspect-ratio: 3 / 4;
-  width: min(100%, 10.5rem);
+  width: min(100%, 11.6rem);
   overflow: hidden;
   border: 1px solid color-mix(in oklch, var(--color-border), var(--color-foreground) 12%);
   border-radius: var(--radius-panel);
   background: var(--color-muted);
-  box-shadow:
-    0.65rem 0.65rem 1rem color-mix(in oklch, var(--color-foreground), transparent 88%),
-    inset 0.55rem 0 color-mix(in oklch, var(--color-foreground), transparent 92%);
-}
-
-.bookshelf-cover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    color-mix(in oklch, var(--color-foreground), transparent 84%),
-    transparent 16%,
-    color-mix(in oklch, var(--color-background), transparent 82%) 72%,
-    transparent
-  );
-  opacity: 0.45;
-  pointer-events: none;
 }
 
 .bookshelf-meta {
@@ -248,14 +320,14 @@ a {
 
 @media (min-width: 640px) {
   .bookshelf-grid {
-    grid-template-columns: repeat(auto-fill, minmax(9.75rem, 1fr));
-    gap: 2.5rem 1.6rem;
+    grid-template-columns: repeat(auto-fill, minmax(9.6rem, 1fr));
+    gap: 1.8rem 1rem;
   }
 }
 
 .search-bookshelf-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(5.75rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
   gap: 1rem 0.7rem;
 }
 
@@ -278,21 +350,11 @@ a {
 .search-bookshelf-cover {
   position: relative;
   aspect-ratio: 3 / 4;
-  width: min(100%, 5.25rem);
+  width: min(100%, 5.65rem);
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   background: var(--color-muted);
-  box-shadow: 0.35rem 0.35rem 0.7rem color-mix(in oklch, var(--color-foreground), transparent 90%);
-}
-
-.search-bookshelf-cover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, color-mix(in oklch, var(--color-foreground), transparent 88%), transparent 22%);
-  opacity: 0.45;
-  pointer-events: none;
 }
 
 .search-bookshelf-meta {
@@ -320,6 +382,54 @@ a {
   font-weight: 650;
   line-height: 1.35;
   overflow-wrap: anywhere;
+}
+
+.sentence-cycle-button.is-spinning svg {
+  animation: sentence-spin 520ms ease;
+}
+
+.sentence-fade {
+  animation: sentence-fade 260ms ease;
+}
+
+@keyframes sentence-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sentence-fade {
+  from {
+    opacity: 0;
+    transform: translateY(0.2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-section,
+  .motion-card {
+    animation: none;
+  }
+
+  .motion-card,
+  .motion-avatar {
+    transition: none;
+  }
+
+  .motion-card:hover,
+  .motion-card:hover .motion-avatar {
+    transform: none;
+  }
+
+  .sentence-cycle-button.is-spinning svg,
+  .sentence-fade {
+    animation: none;
+  }
 }
 
 .markdown-tabs {

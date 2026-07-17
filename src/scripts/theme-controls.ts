@@ -17,12 +17,17 @@ function syncCodeTheme() {
 
 function syncDisplayState() {
   const activeTheme = root.dataset.theme || 'default';
+  const darkMode = root.classList.contains('dark');
   document.querySelectorAll<HTMLElement>('[data-theme-value]').forEach((button) => {
     const active = button.dataset.themeValue === activeTheme;
     button.setAttribute('aria-pressed', String(active));
     button.querySelector<HTMLElement>('[data-theme-indicator]')?.classList.toggle('hidden', !active);
   });
-  document.querySelector<HTMLElement>('[data-color-mode]')?.setAttribute('aria-pressed', String(root.classList.contains('dark')));
+  document.querySelectorAll<HTMLElement>('[data-color-mode]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(darkMode));
+    button.querySelector<HTMLElement>('[data-color-mode-light-icon]')?.classList.toggle('hidden', darkMode);
+    button.querySelector<HTMLElement>('[data-color-mode-dark-icon]')?.classList.toggle('hidden', !darkMode);
+  });
 }
 
 function notifyColorModeChange() {
@@ -79,8 +84,11 @@ document.addEventListener('click', (event) => {
   }
 
   if (target.closest('[data-color-mode]')) {
+    const colorButton = target.closest<HTMLElement>('[data-color-mode]');
     root.classList.toggle('dark');
     localStorage.setItem('color-mode', root.classList.contains('dark') ? 'dark' : 'light');
+    colorButton?.classList.remove('is-switching');
+    window.requestAnimationFrame(() => colorButton?.classList.add('is-switching'));
     syncCodeTheme();
     syncDisplayState();
     notifyColorModeChange();
@@ -95,6 +103,11 @@ document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
   setPanel(document.querySelector('[data-display-panel]'), document.querySelector('[data-display-menu]'), false);
   setPanel(document.querySelector('[data-mobile-panel]'), document.querySelector('[data-mobile-menu]'), false);
+});
+
+document.addEventListener('animationend', (event) => {
+  const target = event.target as HTMLElement;
+  target.closest<HTMLElement>('.theme-toggle-button')?.classList.remove('is-switching');
 });
 
 syncCodeTheme();

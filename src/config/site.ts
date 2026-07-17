@@ -1,25 +1,25 @@
 import type { Locale } from './i18n';
 
 export const siteConfig = {
-  name: 'Astro Narrow',
-  shortName: 'Astro Narrow',
-  description: 'A content-focused Astro theme inspired by Hugo Narrow.',
+  name: 'Dragonchicken',
+  shortName: 'Dragonchi',
+  description: '平平无奇的网站而已',
   author: {
-    name: 'Astro Narrow',
+    name: '神龙鸡汉化组',
     title: {
-      'zh-cn': '一个干净克制的 Astro 主题'
+      'zh-cn': '转转有惊喜'
     },
     description: {
-      'zh-cn': '写作、项目与笔记 —— 一个保持克制、注重结构感的内容空间。'
+      'zh-cn': '你在期待什么'
     },
-    avatar: '/favicon.svg',
+    avatar: '/icon.png',
     social: [
       { name: '哔哩哔哩', url: 'https://space.bilibili.com/3706970171247569', icon: 'simple-icons:bilibili' },
       { name: '小红书', url: 'https://xhslink.com/m/3ITvrI6Uxex', icon: 'simple-icons:xiaohongshu' },
-      { name: '企鹅群', url: 'https://github.com/', icon: 'simple-icons:qq' }
+      { name: '企鹅交流群', url: 'https://qun.qq.com/universal-share/share?ac=1&authKey=q4gobiIV%2Bx1JWbZZl2f36mlMQdq8Aw927FI9gX%2B9Si1Cx7X52OUcj9kJB0YQMHYs&busi_data=eyJncm91cENvZGUiOiI3Nzk1MDE4MzUiLCJ0b2tlbiI6IjdvNlYwRnNyWUpPOStIMmtoemZmNmY5U00vTXhEUlVUKzBFWTdHOHA3R3dLT2RBeHNqVXBZdHhaUlVBYVRLbisiLCJ1aW4iOiIyMTUyNTczODYifQ%3D%3D&data=QPi4RL938fL179PCUvqwm3GTLc1VvSXEUx-bduyNgear-ocmKuF2LFg-HoZmZySgeocBwj2_Gl2ecxtvvyleGw&svctype=4&tempid=h5_group_info', icon: 'simple-icons:qq' }
     ]
   },
-  contentWidth: '60rem',
+  contentWidth: '55rem',
   ui: {
     navbar: {
       sticky: true
