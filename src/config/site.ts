@@ -3,7 +3,7 @@ import type { Locale } from './i18n';
 export const siteConfig = {
   name: 'Dragonchicken',
   shortName: 'Dragonchi',
-  description: '平平无奇的网站而已',
+  description: '平平无奇而已',
   author: {
     name: '神龙鸡汉化组',
     title: {
@@ -19,7 +19,7 @@ export const siteConfig = {
       { name: '企鹅交流群', url: 'https://qun.qq.com/universal-share/share?ac=1&authKey=q4gobiIV%2Bx1JWbZZl2f36mlMQdq8Aw927FI9gX%2B9Si1Cx7X52OUcj9kJB0YQMHYs&busi_data=eyJncm91cENvZGUiOiI3Nzk1MDE4MzUiLCJ0b2tlbiI6IjdvNlYwRnNyWUpPOStIMmtoemZmNmY5U00vTXhEUlVUKzBFWTdHOHA3R3dLT2RBeHNqVXBZdHhaUlVBYVRLbisiLCJ1aW4iOiIyMTUyNTczODYifQ%3D%3D&data=QPi4RL938fL179PCUvqwm3GTLc1VvSXEUx-bduyNgear-ocmKuF2LFg-HoZmZySgeocBwj2_Gl2ecxtvvyleGw&svctype=4&tempid=h5_group_info', icon: 'simple-icons:qq' }
     ]
   },
-  contentWidth: '55rem',
+  contentWidth: '52rem',
   ui: {
     navbar: {
       sticky: true

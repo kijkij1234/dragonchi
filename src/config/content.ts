@@ -27,7 +27,7 @@ export const contentTypes = {
       enabled: true,
       limit: 5,
       title: {
-        'zh-cn': '最近文章'
+        'zh-cn': '最近发布'
       }
     }
   }

@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import { getLocalePath, type Locale } from '../../config/i18n';
 import { siteConfig } from '../../config/site';
-import { themes } from '../../config/theme';
+import { defaultTheme, themes } from '../../config/theme';
 import { useTranslations } from '../../i18n/utils';
 
 interface Props {
@@ -61,11 +61,11 @@ const maximumContentWidth = Math.ceil(defaultContentWidth + 24);
             <button
               type="button"
               data-theme-value={theme.id}
-              aria-pressed={theme.id === 'default' ? 'true' : 'false'}
+              aria-pressed={theme.id === defaultTheme ? 'true' : 'false'}
               class="flex cursor-pointer items-center justify-between gap-2 rounded-[var(--radius-control)] px-2 py-1.5 text-left transition-colors hover:bg-accent hover:text-accent-foreground aria-pressed:bg-primary aria-pressed:text-primary-foreground aria-pressed:hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               <span>{theme.name}</span>
-              <Icon data-theme-indicator name="lucide:check" class:list={['h-3.5 w-3.5', theme.id === 'default' ? '' : 'hidden']} />
+              <Icon data-theme-indicator name="lucide:check" class:list={['h-3.5 w-3.5', theme.id === defaultTheme ? '' : 'hidden']} />
             </button>
           ))}
         </div>

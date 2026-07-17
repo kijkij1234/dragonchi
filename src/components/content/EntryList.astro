@@ -26,5 +26,5 @@ const listClass = isBookshelf
 ---
 
 <div class={listClass}>
-  {entries.map((entry) => <EntryCard entry={entry} collection={collection} locale={locale} />)}
+  {entries.map((entry, index) => <EntryCard entry={entry} collection={collection} locale={locale} index={index} />)}
 </div>

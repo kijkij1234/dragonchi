@@ -10,9 +10,10 @@ interface Props {
   collection: keyof typeof contentTypes;
   locale: Locale;
   style?: EntryCardStyle;
+  index?: number;
 }
 
-const { entry, collection, locale, style } = Astro.props;
+const { entry, collection, locale, style, index = 0 } = Astro.props;
 const config = contentTypes[collection];
 const cardStyle = style ?? config.cardStyle;
 const href = localizedEntryPath(collection, entry as any);
@@ -104,8 +105,8 @@ const bookcover = collection === 'posts' && 'bookcover' in entry.data ? entry.da
     </a>
   </article>
 ) : (
-  <article class="bookshelf-item group motion-section">
-    <a href={href} class="bookshelf-link motion-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25">
+  <article class="bookshelf-item group" style={`--motion-delay: ${Math.min(index, 10) * 45}ms`}>
+    <a href={href} class="bookshelf-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25">
       <div class="bookshelf-cover" aria-hidden={!bookcover}>
         {bookcover ? (
           <img src={bookcover} alt="" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />

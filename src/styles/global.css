@@ -259,6 +259,8 @@ a {
   position: relative;
   z-index: 1;
   min-width: 0;
+  animation: bookshelf-enter 540ms ease both;
+  animation-delay: var(--motion-delay, 0ms);
 }
 
 .bookshelf-link {
@@ -270,11 +272,13 @@ a {
   gap: 0.8rem;
   border-radius: var(--radius-card);
   padding: 0.35rem 0.35rem 0.9rem;
-  transition: transform 220ms ease, background-color 220ms ease;
+  transition:
+    transform 220ms ease,
+    background-color 220ms ease;
 }
 
 .bookshelf-link:hover {
-  transform: translateY(-0.25rem);
+  transform: translateY(-0.45rem) rotate(-0.5deg);
   background: color-mix(in oklch, var(--color-primary), transparent 94%);
 }
 
@@ -286,6 +290,14 @@ a {
   border: 1px solid color-mix(in oklch, var(--color-border), var(--color-foreground) 12%);
   border-radius: var(--radius-panel);
   background: var(--color-muted);
+  transition:
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.bookshelf-link:hover .bookshelf-cover {
+  border-color: color-mix(in oklch, var(--color-primary), transparent 42%);
+  transform: translateY(-0.1rem);
 }
 
 .bookshelf-meta {
@@ -322,6 +334,18 @@ a {
   .bookshelf-grid {
     grid-template-columns: repeat(auto-fill, minmax(9.6rem, 1fr));
     gap: 1.8rem 1rem;
+  }
+}
+
+@keyframes bookshelf-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.9rem) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -412,17 +436,22 @@ a {
 
 @media (prefers-reduced-motion: reduce) {
   .motion-section,
-  .motion-card {
+  .motion-card,
+  .bookshelf-item {
     animation: none;
   }
 
   .motion-card,
-  .motion-avatar {
+  .motion-avatar,
+  .bookshelf-link,
+  .bookshelf-cover {
     transition: none;
   }
 
   .motion-card:hover,
-  .motion-card:hover .motion-avatar {
+  .motion-card:hover .motion-avatar,
+  .bookshelf-link:hover,
+  .bookshelf-link:hover .bookshelf-cover {
     transform: none;
   }
 

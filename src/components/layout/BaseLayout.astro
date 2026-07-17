@@ -2,6 +2,7 @@
 import '../../styles/global.css';
 import { defaultLocale, localeMeta, type Locale } from '../../config/i18n';
 import { siteConfig } from '../../config/site';
+import { defaultTheme } from '../../config/theme';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Dock from '../ui/Dock.astro';
@@ -43,7 +44,7 @@ const themeInit = `
 (() => {
   const root = document.documentElement;
   try {
-    const theme = localStorage.getItem('theme') || 'default';
+    const theme = localStorage.getItem('theme') || '${defaultTheme}';
     const mode = localStorage.getItem('color-mode');
     const contentWidth = localStorage.getItem('content-width');
     root.dataset.theme = theme;
@@ -61,7 +62,7 @@ const themeInit = `
 ---
 
 <!doctype html>
-<html lang={htmlLang} data-theme="default" style={`--layout-content-width: ${siteConfig.contentWidth}`}>
+<html lang={htmlLang} data-theme={defaultTheme} style={`--layout-content-width: ${siteConfig.contentWidth}`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
